@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+
+  gigsterdb:
+    container_name: gigsterdb
+    image: postgres
+    environment:
+      - POSTGRES_DB=gigster
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=super
+    # volumes:
+    #   - gigster-data:/var/lib/postgresql/data
+  
+  gigster:
+    build: .
+    image: gigster
+    container_name: gigster
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - gigsterdb
+    environment:
+      - DATABASE_HOST=gigsterdb
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=super
+
+# volumes:
+#   gigster-data:
+#     driver: local
+#     name: songbook-data
