@@ -8,12 +8,12 @@
 		<version>3.3.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.veljko121</groupId>
-	<artifactId>back-end</artifactId>
+	<groupId>com.github.veljko121</groupId>
+	<artifactId>gigster</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>back-end</name>
-	<description>Demo project for Spring Boot</description>
+	<name>gigster</name>
+	<description>Project for reserving gigs</description>
 	<properties>
 		<java.version>22</java.version>
 	</properties>
