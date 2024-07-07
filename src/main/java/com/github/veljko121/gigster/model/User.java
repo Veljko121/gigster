@@ -1,10 +1,8 @@
 package com.github.veljko121.gigster.model;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +16,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,11 +32,6 @@ public class User extends GenericEntity implements UserDetails {
     @Email
     @Column(unique = true, nullable = false)
     private String email;
-
-    @Column(nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @CreationTimestamp
-    @Setter(value = AccessLevel.NONE)
-    private LocalDateTime createdDateTime;
     
     @NotEmpty
     @Column(nullable = false)
