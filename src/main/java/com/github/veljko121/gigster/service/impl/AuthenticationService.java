@@ -29,9 +29,9 @@ public class AuthenticationService implements IAuthenticationService {
     @Override
     public User login(CredentialsDTO credentialsDTO) {
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(credentialsDTO.getUsername(), credentialsDTO.getPassword())
+            new UsernamePasswordAuthenticationToken(credentialsDTO.username(), credentialsDTO.password())
         );
-        return userService.findByUsername(credentialsDTO.getUsername());
+        return userService.findByUsername(credentialsDTO.username());
     }
 
     @Override
