@@ -1,10 +1,20 @@
 package com.github.veljko121.gigster.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-public record RegisterRequestDTO(
-    @NotEmpty String username,
-    @Email @NotEmpty String email,
-    @NotEmpty String password
-) { }
+@Data
+public class RegisterRequestDTO {
+
+    @NotBlank
+    String username;
+
+    @Email
+    @NotBlank
+    String email;
+    
+    @NotBlank
+    String password;
+    
+}

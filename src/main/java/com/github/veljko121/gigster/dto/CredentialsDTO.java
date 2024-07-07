@@ -1,8 +1,15 @@
 package com.github.veljko121.gigster.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-public record CredentialsDTO(
-    @NotEmpty String username,
-    @NotEmpty String password
-) { }
+@Data
+public class CredentialsDTO {
+
+    @NotBlank
+    private final String username;
+
+    @NotBlank
+    private final String password;
+
+}

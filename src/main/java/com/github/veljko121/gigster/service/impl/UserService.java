@@ -6,9 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.github.veljko121.gigster.core.exception.EmailNotUniqueException;
-import com.github.veljko121.gigster.core.exception.UsernameNotUniqueException;
-import com.github.veljko121.gigster.model.User;
+import com.github.veljko121.gigster.model.User; 
 import com.github.veljko121.gigster.repository.UserRepository;
 import com.github.veljko121.gigster.service.IUserService;
 
@@ -36,8 +34,8 @@ public class UserService implements IUserService {
 
     @Override
     public User save(User user) {
-        if (existsByUsername(user.getUsername())) throw new UsernameNotUniqueException(user.getUsername());
-        if (existsByEmail(user.getEmail())) throw new EmailNotUniqueException(user.getEmail());
+        // if (existsByUsername(user.getUsername())) throw new UsernameNotUniqueException(user.getUsername());
+        // if (existsByEmail(user.getEmail())) throw new EmailNotUniqueException(user.getEmail());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);

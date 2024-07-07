@@ -1,5 +1,12 @@
 package com.github.veljko121.gigster.dto;
 
-public record AuthenticationResponseDTO(
-    String token
-) { }
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+@Data
+public class AuthenticationResponseDTO {
+
+    @NotBlank
+    private final String token;
+
+}

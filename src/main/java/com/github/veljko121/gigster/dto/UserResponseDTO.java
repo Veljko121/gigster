@@ -4,9 +4,23 @@ import java.time.LocalDateTime;
 
 import com.github.veljko121.gigster.core.enums.Role;
 
-public record UserResponseDTO(
-    String username,
-    String email,
-    Role role,
-    LocalDateTime createdDateTime
-) { }
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+public class UserResponseDTO {
+    
+    @NotBlank
+    String username;
+
+    @NotBlank
+    String email;
+    
+    @NotNull
+    Role role;
+    
+    @NotNull
+    LocalDateTime createdDateTime;
+    
+}
