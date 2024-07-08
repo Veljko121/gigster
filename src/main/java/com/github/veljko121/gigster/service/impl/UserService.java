@@ -2,43 +2,46 @@ package com.github.veljko121.gigster.service.impl;
 
 import java.util.NoSuchElementException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.github.veljko121.gigster.dto.UserRequestDTO;
+import com.github.veljko121.gigster.dto.UserResponseDTO;
 import com.github.veljko121.gigster.model.User; 
 import com.github.veljko121.gigster.repository.UserRepository;
 import com.github.veljko121.gigster.service.IUserService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserService implements IUserService {
 
     private final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final ModelMapper modelMapper;
 
     @Override
-    public User findByUsername(String username) throws NoSuchElementException {
-        return userRepository.findByUsername(username).orElseThrow();
+    public UserResponseDTO findByUsername(String username) throws NoSuchElementException {
+        var user = userRepository.findByUsername(username).orElseThrow();
+        var responseDTO = modelMapper.map(user, UserResponseDTO.class);
+        return responseDTO;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        return findByUsername(username);
+        var userResponse = userRepository.findByUsername(username).orElseThrow();
+        var userDetails = modelMapper.map(userResponse, UserDetails.class);
+        return userDetails;
     }
 
     @Override
-    public User save(User user) {
-        // if (existsByUsername(user.getUsername())) throw new UsernameNotUniqueException(user.getUsername());
-        // if (existsByEmail(user.getEmail())) throw new EmailNotUniqueException(user.getEmail());
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+    public UserResponseDTO save(UserRequestDTO requestDTO) {
+        var user = modelMapper.map(requestDTO, User.class);
+        var savedUser = userRepository.save(user);
+        var responseDTO = modelMapper.map(savedUser, UserResponseDTO.class);
+        return responseDTO;
     }
 
     @Override

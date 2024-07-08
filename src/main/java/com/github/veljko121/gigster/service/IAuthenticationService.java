@@ -1,13 +1,13 @@
 package com.github.veljko121.gigster.service;
 
 import com.github.veljko121.gigster.dto.CredentialsDTO;
-import com.github.veljko121.gigster.model.User;
+import com.github.veljko121.gigster.dto.RegisterRequestDTO;
 
 public interface IAuthenticationService {
     
-    User register(User user);
+    String register(RegisterRequestDTO requestDTO);
 
-    User login(CredentialsDTO credentialsDTO);
+    String login(CredentialsDTO credentialsDTO);
 
     Boolean usernameExists(String username);
 

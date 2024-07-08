@@ -1,14 +1,18 @@
 package com.github.veljko121.gigster.service.impl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.github.veljko121.gigster.core.enums.Role;
+import com.github.veljko121.gigster.core.service.IJwtService;
 import com.github.veljko121.gigster.dto.CredentialsDTO;
+import com.github.veljko121.gigster.dto.RegisterRequestDTO;
 import com.github.veljko121.gigster.model.User;
+import com.github.veljko121.gigster.repository.UserRepository;
 import com.github.veljko121.gigster.service.IAuthenticationService;
-import com.github.veljko121.gigster.service.IUserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,32 +20,44 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
 
-    private final IUserService userService;
+    private final UserRepository userRepository;
 
     private final AuthenticationManager authenticationManager;
 
+    private final ModelMapper modelMapper;
+
+    private final IJwtService jwtService;
+
+    private final PasswordEncoder passwordEncoder;
+
     @Override
-    public User register(User user) {
+    public String register(RegisterRequestDTO requestDTO) {
+        var user = modelMapper.map(requestDTO, User.class);
         user.setRole(Role.USER);
-        return userService.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        var savedUser = userRepository.save(user);
+        var jwt = jwtService.generateJwt(savedUser);
+        return jwt;
     }
 
     @Override
-    public User login(CredentialsDTO credentialsDTO) {
+    public String login(CredentialsDTO credentialsDTO) {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(credentialsDTO.getUsername(), credentialsDTO.getPassword())
         );
-        return userService.findByUsername(credentialsDTO.getUsername());
+        var user = userRepository.findByUsername(credentialsDTO.getUsername()).orElseThrow();
+        var jwt = jwtService.generateJwt(user);
+        return jwt;
     }
 
     @Override
     public Boolean usernameExists(String username) {
-        return userService.existsByUsername(username);
+        return userRepository.existsByUsername(username);
     }
 
     @Override
     public Boolean emailExists(String email) {
-        return userService.existsByEmail(email);
+        return userRepository.existsByEmail(email);
     }
     
 }
