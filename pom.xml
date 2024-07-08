@@ -11,7 +11,7 @@
 	<groupId>com.github.veljko121</groupId>
 	<artifactId>gigster</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>gigster</name>
 	<description>Project for reserving gigs</description>
 	<properties>
