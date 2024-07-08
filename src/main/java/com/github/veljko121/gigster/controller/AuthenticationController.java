@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.veljko121.gigster.core.dto.ExistsResponseDTO;
 import com.github.veljko121.gigster.dto.AuthenticationResponseDTO;
 import com.github.veljko121.gigster.dto.CredentialsDTO;
 import com.github.veljko121.gigster.dto.RegisterRequestDTO;
@@ -43,13 +42,13 @@ public class AuthenticationController {
     }
 
     @GetMapping("{username}/username-exists")
-    public ResponseEntity<ExistsResponseDTO> usernameExists(@PathVariable String username) {
-        return ResponseEntity.ok().body(new ExistsResponseDTO(authenticationService.usernameExists(username)));
+    public ResponseEntity<?> usernameExists(@PathVariable String username) {
+        return ResponseEntity.ok().body(authenticationService.usernameExists(username));
     }
 
     @GetMapping("{email}/email-exists")
-    public ResponseEntity<ExistsResponseDTO> emailExists(@PathVariable @Email String email) {
-        return ResponseEntity.ok().body(new ExistsResponseDTO(authenticationService.emailExists(email)));
+    public ResponseEntity<?> emailExists(@PathVariable @Email String email) {
+        return ResponseEntity.ok().body(authenticationService.emailExists(email));
     }
     
 }
