@@ -13,7 +13,7 @@ public interface ICRUDService<T, TRequestDTO, TResponseDTO, ID> {
 
     TResponseDTO save(TRequestDTO reqeustDTO);
 
-    TResponseDTO update(ID id, TRequestDTO updatedEntityRequestDTO);
+    TResponseDTO update(TRequestDTO updatedEntityRequestDTO);
     
     void deleteById(ID id);
 
