@@ -8,14 +8,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.github.veljko121.gigster.core.service.ICRUDService;
 
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
-@AllArgsConstructor
 public abstract class CRUDService<T, TRequestDTO, TResponseDTO, ID> implements ICRUDService<T, TRequestDTO, TResponseDTO, ID> {
 
-    private JpaRepository<T, ID> repository;   
+    private JpaRepository<T, ID> repository;
+
+    public CRUDService(JpaRepository<T, ID> repository) {
+        super();
+        this.repository = repository;
+    }
 
     public TResponseDTO findById(ID id) throws NoSuchElementException {
         var entity = repository.findById(id).orElseThrow();
