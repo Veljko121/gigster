@@ -2,42 +2,62 @@ package com.github.veljko121.gigster.core.service.impl;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.github.veljko121.gigster.core.service.ICRUDService;
 
-public abstract class CRUDService<T, ID> implements ICRUDService<T, ID> {
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-    private JpaRepository<T, ID> repository;
-    
-    public CRUDService(JpaRepository<T, ID> repository) {
-        super();
-        this.repository = repository;
+@RequiredArgsConstructor
+@AllArgsConstructor
+public abstract class CRUDService<T, TRequestDTO, TResponseDTO, ID> implements ICRUDService<T, TRequestDTO, TResponseDTO, ID> {
+
+    private JpaRepository<T, ID> repository;   
+
+    public TResponseDTO findById(ID id) throws NoSuchElementException {
+        var entity = repository.findById(id).orElseThrow();
+        var responseDTO = mapToResponseDTO(entity);
+        return responseDTO;
     }
 
-    public T findById(ID id) throws NoSuchElementException {
-        return repository.findById(id).orElseThrow();
+    public Collection<TResponseDTO> findAll() {
+        var entities = repository.findAll();
+        var responseDTOs = mapToResponseDTOs(entities);
+        return responseDTOs;
     }
 
-    public Collection<T> findAll() {
-        return repository.findAll();
+    public Collection<TResponseDTO> findAllByIds(Iterable<ID> ids) {
+        var entities = repository.findAllById(ids);
+        var responseDTOs = mapToResponseDTOs(entities);
+        return responseDTOs;
     }
 
-    public Collection<T> findAllByIds(Iterable<ID> ids) {
-        return repository.findAllById(ids);
-    }
-
-    public T save(T entity) {
-        return repository.save(entity);
+    public TResponseDTO save(TRequestDTO requestDTO) {
+        var entity = mapToDomain(requestDTO);
+        var savedEntity = repository.save(entity);
+        var responseDTO = mapToResponseDTO(savedEntity);
+        return responseDTO;
     }
 
     public void deleteById(ID id) {
         repository.deleteById(id);
     }
 
-    public void delete(T entity) {
-        repository.delete(entity);
+    protected abstract TResponseDTO mapToResponseDTO(T entity);
+
+    protected abstract T mapToDomain(TRequestDTO requestDTO);
+
+    protected Collection<TResponseDTO> mapToResponseDTOs(Collection<T> entities) {
+        var responseDTOs = entities.stream().map(entity -> mapToResponseDTO(entity)).collect(Collectors.toList());
+        return responseDTOs;
+    }
+
+    protected Collection<T> mapToDomains(Collection<TRequestDTO> requestDTOs) {
+        var entities = requestDTOs.stream().map(requestDTO -> mapToDomain(requestDTO)).collect(Collectors.toList());
+        return entities;
     }
     
 }

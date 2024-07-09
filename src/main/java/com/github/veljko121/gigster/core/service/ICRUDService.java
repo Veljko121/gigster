@@ -3,18 +3,18 @@ package com.github.veljko121.gigster.core.service;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
-public interface ICRUDService<T, ID> {
+public interface ICRUDService<T, TRequestDTO, TResponseDTO, ID> {
 
-    T findById(ID id) throws NoSuchElementException;
+    TResponseDTO findById(ID id) throws NoSuchElementException;
 
-    Collection<T> findAll();
+    Collection<TResponseDTO> findAll();
 
-    Collection<T> findAllByIds(Iterable<ID> ids);
+    Collection<TResponseDTO> findAllByIds(Iterable<ID> ids);
 
-    T save(T entity);
+    TResponseDTO save(TRequestDTO reqeustDTO);
+
+    TResponseDTO update(ID id, TRequestDTO updatedEntityRequestDTO);
     
     void deleteById(ID id);
 
-    void delete(T entity);
-    
 }
