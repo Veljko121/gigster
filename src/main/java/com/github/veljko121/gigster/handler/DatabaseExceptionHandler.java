@@ -1,5 +1,6 @@
 package com.github.veljko121.gigster.handler;
 
+import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,9 +12,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class DatabaseExceptionHandler {
 
-    @ExceptionHandler
+    @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<?> handeException(DataAccessException exception) {
         return ResponseEntity.badRequest().body(extractDetail(exception));
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<?> notFound(NoSuchElementException exception) {
+        return ResponseEntity.notFound().build();
     }
 
     private String extractDetail(DataAccessException exception) {
