@@ -46,6 +46,10 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, ID> implements I
         repository.deleteById(id);
     }
 
+    public TResponseDTO update(TRequestDTO updatedEntityRequestDTO) {
+        return save(updatedEntityRequestDTO);
+    }
+
     protected abstract TResponseDTO mapToResponseDTO(T entity);
 
     protected abstract T mapToDomain(TRequestDTO requestDTO);
