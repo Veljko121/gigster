@@ -8,13 +8,19 @@ import lombok.Data;
 public class RegisterRequestDTO {
 
     @NotBlank
-    String username;
+    private String username;
+
+    @NotBlank
+    private String firstName;
+    
+    @NotBlank
+    private String lastName;
 
     @Email
     @NotBlank
-    String email;
+    private String email;
     
     @NotBlank
-    String password;
+    private String password;
     
 }

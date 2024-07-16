@@ -9,10 +9,16 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class UserResponseDTO {
+public class RegisteredUserResponseDTO {
     
     @NotBlank
     private String username;
+
+    @NotBlank
+    private String firstName;
+    
+    @NotBlank
+    private String lastName;
 
     @NotBlank
     private String email;
@@ -22,5 +28,5 @@ public class UserResponseDTO {
     
     @NotNull
     private LocalDateTime createdDateTime;
-    
+
 }

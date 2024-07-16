@@ -13,6 +13,8 @@ import com.github.veljko121.gigster.core.model.GenericEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -22,8 +24,9 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "_user")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter @Setter
-public class User extends GenericEntity implements UserDetails {
+public abstract class User extends GenericEntity implements UserDetails {
 
     @NotBlank
     @Column(unique = true, nullable = false)

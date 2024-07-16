@@ -7,9 +7,9 @@ import lombok.Data;
 public class UserRequestDTO  {
     
     @NotBlank
-    String username;
+    private String username;
 
     @NotBlank
-    String email;
+    private String email;
     
 }

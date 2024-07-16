@@ -10,7 +10,8 @@ import com.github.veljko121.gigster.core.enums.Role;
 import com.github.veljko121.gigster.core.service.IJwtService;
 import com.github.veljko121.gigster.dto.CredentialsDTO;
 import com.github.veljko121.gigster.dto.RegisterRequestDTO;
-import com.github.veljko121.gigster.model.User;
+import com.github.veljko121.gigster.model.RegisteredUser;
+import com.github.veljko121.gigster.repository.RegisteredUserRepository;
 import com.github.veljko121.gigster.repository.UserRepository;
 import com.github.veljko121.gigster.service.IAuthenticationService;
 
@@ -22,6 +23,8 @@ public class AuthenticationService implements IAuthenticationService {
 
     private final UserRepository userRepository;
 
+    private final RegisteredUserRepository registeredUserRepository;
+
     private final AuthenticationManager authenticationManager;
 
     private final ModelMapper modelMapper;
@@ -32,10 +35,10 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public String register(RegisterRequestDTO requestDTO) {
-        var user = modelMapper.map(requestDTO, User.class);
+        var user = modelMapper.map(requestDTO, RegisteredUser.class);
         user.setRole(Role.USER);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        var savedUser = userRepository.save(user);
+        var savedUser = registeredUserRepository.save(user);
         var jwt = jwtService.generateJwt(savedUser);
         return jwt;
     }
