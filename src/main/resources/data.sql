@@ -1,10 +1,12 @@
 INSERT INTO _user(username, email, password, role)
 VALUES
-    ('veljko', 'nikolicveljko01@gmail.com', '$2a$10$GvBT2HXPqMdOTKDbnjxEVOkvnABMUzNclJ3u91Qhcxysi8vxOK7/W', 0);
+    ('veljko', 'nikolicveljko01@gmail.com', '$2a$10$GvBT2HXPqMdOTKDbnjxEVOkvnABMUzNclJ3u91Qhcxysi8vxOK7/W', 0),
+    ('marko', 'nikolicmarko1243@gmail.com', '$2a$10$aRzJxhDfBJdbvM8L7G366eZ5opg6/aXUNvJJYBmGYfNkSGTA0AYQy', 0);
 
 INSERT INTO registered_user(id, first_name, last_name)
 VALUES
-    (1, 'Veljko', 'Nikolić');
+    (1, 'Veljko', 'Nikolić'),
+    (2, 'Marko', 'Nikolić');
 
 INSERT INTO genre(name)
 VALUES
@@ -16,7 +18,7 @@ INSERT INTO band(owner_id, type, name)
 VALUES
     (1, 0, 'Duo Perfetto'),
     (1, 0, 'Ritmico Acoustic'),
-    (1, 0, 'Melodico Acoustic');
+    (2, 0, 'Melodico Acoustic');
 
 INSERT INTO band_genres(band_id, genres_id)
 VALUES

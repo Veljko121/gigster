@@ -36,7 +36,7 @@ public class AuthenticationService implements IAuthenticationService {
     @Override
     public String register(RegisterRequestDTO requestDTO) {
         var user = modelMapper.map(requestDTO, RegisteredUser.class);
-        user.setRole(Role.USER);
+        user.setRole(Role.REGISTERED_USER);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         var savedUser = registeredUserRepository.save(user);
         var jwt = jwtService.generateJwt(savedUser);

@@ -3,6 +3,7 @@ package com.github.veljko121.gigster.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.github.veljko121.gigster.core.exception.UnauthorizedOperationException;
 import com.github.veljko121.gigster.core.service.impl.CRUDService;
 import com.github.veljko121.gigster.dto.BandRequestDTO;
 import com.github.veljko121.gigster.dto.BandResponseDTO;
@@ -17,7 +18,7 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
 
     private final ModelMapper modelMapper;
 
-    // private final BandRepository bandRepository;
+    private final BandRepository bandRepository;
 
     private final GenreRepository genreRepository;
 
@@ -25,10 +26,18 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
 
     public BandService(BandRepository bandRepository, GenreRepository genreRepository, IRegisteredUserService registeredUserService, ModelMapper modelMapper) {
         super(bandRepository);
-        // this.bandRepository = bandRepository;
+        this.bandRepository = bandRepository;
         this.genreRepository = genreRepository;
         this.registeredUserService = registeredUserService;
         this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        var band = bandRepository.findById(id).orElseThrow();
+        var registeredUser = registeredUserService.getLoggedInRegisteredUser();
+        if (band.getOwner() != registeredUser) throw new UnauthorizedOperationException("unauthorized deletion");
+        super.deleteById(id);
     }
 
     @Override
