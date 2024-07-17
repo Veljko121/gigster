@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.github.veljko121.gigster.core.service.ICRUDService;
 
-public abstract class CRUDService<T, TRequestDTO, TResponseDTO, ID> implements ICRUDService<T, TRequestDTO, TResponseDTO, ID> {
+public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDTO, ID> implements ICRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDTO, ID> {
 
     private JpaRepository<T, ID> repository;
 
@@ -46,13 +46,19 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, ID> implements I
         repository.deleteById(id);
     }
 
-    public TResponseDTO update(TRequestDTO updatedEntityRequestDTO) {
-        return save(updatedEntityRequestDTO);
+    public TResponseDTO update(ID id, TUpdateRequestDTO updatedEntityRequestDTO) {
+        var entity = repository.findById(id).orElseThrow();
+        var updatedEntity = mapUpdatedFieldsToDomain(entity, updatedEntityRequestDTO);
+        var savedUpdatedEntity = repository.save(updatedEntity);
+        var responseDTO = mapToResponseDTO(savedUpdatedEntity);
+        return responseDTO;
     }
 
     protected abstract TResponseDTO mapToResponseDTO(T entity);
 
     protected abstract T mapToDomain(TRequestDTO requestDTO);
+
+    protected abstract T mapUpdatedFieldsToDomain(T entity, TUpdateRequestDTO updatedEntityRequestDTO);
 
     protected Collection<TResponseDTO> mapToResponseDTOs(Collection<T> entities) {
         var responseDTOs = entities.stream().map(entity -> mapToResponseDTO(entity)).collect(Collectors.toList());

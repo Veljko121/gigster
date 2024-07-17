@@ -7,12 +7,13 @@ import com.github.veljko121.gigster.core.service.IJwtService;
 import com.github.veljko121.gigster.core.service.impl.CRUDService;
 import com.github.veljko121.gigster.dto.RegisterRequestDTO;
 import com.github.veljko121.gigster.dto.RegisteredUserResponseDTO;
+import com.github.veljko121.gigster.dto.RegisteredUserUpdateRequestDTO;
 import com.github.veljko121.gigster.model.RegisteredUser;
 import com.github.veljko121.gigster.repository.RegisteredUserRepository;
 import com.github.veljko121.gigster.service.IRegisteredUserService;
 
 @Service
-public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterRequestDTO, RegisteredUserResponseDTO, Integer> implements IRegisteredUserService {
+public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterRequestDTO, RegisteredUserResponseDTO, RegisteredUserUpdateRequestDTO, Integer> implements IRegisteredUserService {
 
     private final ModelMapper modelMapper;
 
@@ -40,6 +41,15 @@ public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterR
     @Override
     public RegisteredUser getLoggedInRegisteredUser() {
         return registeredUserRepository.findById(jwtService.getLoggedInUserId()).orElseThrow();
+    }
+
+    @Override
+    protected RegisteredUser mapUpdatedFieldsToDomain(RegisteredUser entity, RegisteredUserUpdateRequestDTO updatedEntityRequestDTO) {
+        entity.setUsername(updatedEntityRequestDTO.getUsername());
+        entity.setEmail(updatedEntityRequestDTO.getEmail());
+        entity.setFirstName(updatedEntityRequestDTO.getFirstName());
+        entity.setLastName(updatedEntityRequestDTO.getLastName());
+        return entity;
     }
     
 }

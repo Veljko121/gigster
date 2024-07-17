@@ -29,7 +29,6 @@ public class AuthenticationController {
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDTO requestDTO) {
         var jwt = authenticationService.register(requestDTO);
         var authenticationResponse = new AuthenticationResponseDTO(jwt);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationResponse);
     }
 
@@ -37,7 +36,6 @@ public class AuthenticationController {
     public ResponseEntity<?> logIn(@Valid @RequestBody CredentialsDTO credentialsDTO) {
         var jwt = authenticationService.login(credentialsDTO);
         var authenticationResponse = new AuthenticationResponseDTO(jwt);
-
         return ResponseEntity.ok().body(authenticationResponse);
     }
 

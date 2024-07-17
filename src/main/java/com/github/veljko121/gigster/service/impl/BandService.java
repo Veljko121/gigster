@@ -14,7 +14,7 @@ import com.github.veljko121.gigster.service.IBandService;
 import com.github.veljko121.gigster.service.IRegisteredUserService;
 
 @Service
-public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseDTO, Integer> implements IBandService {
+public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseDTO, BandRequestDTO, Integer> implements IBandService {
 
     private final ModelMapper modelMapper;
 
@@ -49,10 +49,18 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
     @Override
     protected Band mapToDomain(BandRequestDTO requestDTO) {
         var band = modelMapper.map(requestDTO, Band.class);
-        var genres = this.genreRepository.findAllById(requestDTO.getGenreIds());
-        band.setGenres(genres);
+        band.setGenres(genreRepository.findAllById(requestDTO.getGenreIds()));
         band.setOwner(registeredUserService.getLoggedInRegisteredUser());
         return band;
+    }
+
+    @Override
+    protected Band mapUpdatedFieldsToDomain(Band entity, BandRequestDTO updatedEntityRequestDTO) {
+        entity.setName(updatedEntityRequestDTO.getName());
+        entity.setDescription(updatedEntityRequestDTO.getDescription());
+        entity.setGenres(genreRepository.findAllById(updatedEntityRequestDTO.getGenreIds()));
+        entity.setType(updatedEntityRequestDTO.getType());
+        return entity;
     }
     
 }

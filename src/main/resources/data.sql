@@ -14,11 +14,11 @@ VALUES
     ('Rock'),
     ('Folk');
 
-INSERT INTO band(owner_id, type, name)
+INSERT INTO band(owner_id, name, type, description)
 VALUES
-    (1, 0, 'Duo Perfetto'),
-    (1, 0, 'Ritmico Acoustic'),
-    (2, 0, 'Melodico Acoustic');
+    (1, 'Duo Perfetto', 0, 'Osnovan 2021. godine jedan je od najpoznatijih akutičnih dvojaca u Novom Sadu i okolini. Mladi, entuzijastični muzičari koji vole dobru atmosferu.'),
+    (1, 'Ritmico Acoustic', 0, 'Novi bend u Novom Sadu, već dobro poznat ljubiteljima akustične muzike.'),
+    (2, 'Melodico Band', 1, 'Kako samo ime kaže, ako ste željni dobre melodije, našli ste pravi bend.');
 
 INSERT INTO band_genres(band_id, genres_id)
 VALUES
