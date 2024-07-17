@@ -15,6 +15,8 @@ public class BandRequestDTO {
     @NotBlank
     private String name;
 
+    private String description;
+
     @NotNull
     private BandType type;
 

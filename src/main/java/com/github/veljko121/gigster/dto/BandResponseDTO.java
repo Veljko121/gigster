@@ -18,6 +18,8 @@ public class BandResponseDTO {
 
     @NotBlank
     private String name;
+    
+    private String description;
 
     @NotNull
     private BandType type;

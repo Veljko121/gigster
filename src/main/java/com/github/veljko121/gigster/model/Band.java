@@ -24,6 +24,9 @@ public class Band extends GenericEntity {
     @Column(nullable = false)
     private String name;
 
+    @Column(length = 500)
+    private String description;
+
     @NotNull
     @Enumerated
     private BandType type;
