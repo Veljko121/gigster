@@ -10,6 +10,9 @@ import lombok.Data;
 
 @Data
 public class RegisteredUserResponseDTO {
+
+    @NotNull
+    private Integer id;
     
     @NotBlank
     private String username;

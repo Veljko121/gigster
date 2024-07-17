@@ -45,7 +45,8 @@ public class WebSecurityConfig {
     };
 
     private static final String[] ALLOWED_GET_METHODS = {
-        "/api/bands/**"
+        "/api/bands/**",
+        "/api/registered-users/{id}",
     };
     
     private final AuthenticationProvider authenticationProvider;
