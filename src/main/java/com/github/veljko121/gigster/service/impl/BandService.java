@@ -20,7 +20,7 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
 
     private final ModelMapper modelMapper;
 
-    private final BandRepository bandRepository;
+    // private final BandRepository bandRepository;
 
     private final GenreRepository genreRepository;
 
@@ -30,7 +30,7 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
 
     public BandService(BandRepository bandRepository, GenreRepository genreRepository, RegisteredUserRepository registeredUserRepository, IJwtService jwtService, ModelMapper modelMapper) {
         super(bandRepository);
-        this.bandRepository = bandRepository;
+        // this.bandRepository = bandRepository;
         this.genreRepository = genreRepository;
         this.registeredUserRepository = registeredUserRepository;
         this.jwtService = jwtService;
@@ -73,9 +73,9 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
     }
 
     private void checkOwner(Integer id) {
-        var band = bandRepository.findById(id).orElseThrow();
+        var band = findByIdDomain(id);
         var registeredUser = getLoggedInRegisteredUser();
-        if (band.getOwner() != registeredUser) throw new UnauthorizedOperationException("Unauthorized request.");
+        if (band.getOwner() != registeredUser) throw new UnauthorizedOperationException();
     }
 
     private RegisteredUser getLoggedInRegisteredUser() {

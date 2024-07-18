@@ -18,28 +18,35 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDT
     }
 
     public TResponseDTO findById(ID id) throws NoSuchElementException {
-        var entity = repository.findById(id).orElseThrow();
-        var responseDTO = mapToResponseDTO(entity);
-        return responseDTO;
+        return mapToResponseDTO(findByIdDomain(id));
+    }
+
+    protected T findByIdDomain(ID id) throws NoSuchElementException {
+        return repository.findById(id).orElseThrow();
     }
 
     public Collection<TResponseDTO> findAll() {
-        var entities = repository.findAll();
-        var responseDTOs = mapToResponseDTOs(entities);
-        return responseDTOs;
+        return mapToResponseDTOs(findAllDomain());
     }
 
+    protected Collection<T> findAllDomain() {
+        return repository.findAll();
+    } 
+
     public Collection<TResponseDTO> findAllByIds(Iterable<ID> ids) {
-        var entities = repository.findAllById(ids);
-        var responseDTOs = mapToResponseDTOs(entities);
-        return responseDTOs;
+        return mapToResponseDTOs(findAllByIdsDomain(ids));
+    }
+
+    public Collection<T> findAllByIdsDomain(Iterable<ID> ids) {
+        return repository.findAllById(ids);
     }
 
     public TResponseDTO save(TRequestDTO requestDTO) {
-        var entity = mapToDomain(requestDTO);
-        var savedEntity = repository.save(entity);
-        var responseDTO = mapToResponseDTO(savedEntity);
-        return responseDTO;
+        return mapToResponseDTO(saveDomain(requestDTO));
+    }
+
+    protected T saveDomain(TRequestDTO requestDTO) {
+        return repository.save(mapToDomain(requestDTO));
     }
 
     public void deleteById(ID id) {
@@ -47,11 +54,11 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDT
     }
 
     public TResponseDTO update(ID id, TUpdateRequestDTO updatedEntityRequestDTO) {
-        var entity = repository.findById(id).orElseThrow();
-        var updatedEntity = mapUpdatedFieldsToDomain(entity, updatedEntityRequestDTO);
-        var savedUpdatedEntity = repository.save(updatedEntity);
-        var responseDTO = mapToResponseDTO(savedUpdatedEntity);
-        return responseDTO;
+        return mapToResponseDTO(updateDomain(id, updatedEntityRequestDTO));
+    }
+
+    public T updateDomain(ID id, TUpdateRequestDTO updatedEntityRequestDTO) {
+        return mapUpdatedFieldsToDomain(findByIdDomain(id), updatedEntityRequestDTO);
     }
 
     protected abstract TResponseDTO mapToResponseDTO(T entity);

@@ -56,7 +56,7 @@ public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterR
     @Override
     public AuthenticationResponseDTO updateLoggedInRegisteredUserProfile(RegisteredUserUpdateRequestDTO requestDTO) {
         var id = jwtService.getLoggedInUserId();
-        var entity = registeredUserRepository.findById(id).orElseThrow();
+        var entity = findByIdDomain(id);
         var updatedEntity = mapUpdatedFieldsToDomain(entity, requestDTO);
         var savedUpdatedEntity = registeredUserRepository.save(updatedEntity);
         var jwt = jwtService.generateJwt(savedUpdatedEntity);
