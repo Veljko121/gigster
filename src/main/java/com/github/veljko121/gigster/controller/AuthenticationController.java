@@ -53,9 +53,8 @@ public class AuthenticationController {
 
     @PatchMapping("/change-password")
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequestDTO requestDTO) {
-        var jwt = authenticationService.changePassword(requestDTO);
-        var authenticationResponse = new AuthenticationResponseDTO(jwt);
-        return ResponseEntity.ok().body(authenticationResponse);
+        authenticationService.changePassword(requestDTO);
+        return ResponseEntity.ok().build();
     }
     
 }

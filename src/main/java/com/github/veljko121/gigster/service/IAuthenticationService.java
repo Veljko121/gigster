@@ -14,6 +14,6 @@ public interface IAuthenticationService {
 
     Boolean emailExists(String email);
 
-    String changePassword(ChangePasswordRequestDTO requestDTO);
+    void changePassword(ChangePasswordRequestDTO requestDTO);
 
 }

@@ -67,16 +67,15 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     @Override
-    public String changePassword(ChangePasswordRequestDTO requestDTO) {
+    public void changePassword(ChangePasswordRequestDTO requestDTO) {
         var loggedInUser = userRepository.findById(jwtService.getLoggedInUserId()).orElseThrow();
-        if (!loggedInUser.getPassword().equals(requestDTO.getOldPassword())) throw new InternalAuthenticationServiceException("Old password did not match with an existing account.");
+        if (!passwordEncoder.matches(requestDTO.getOldPassword(), loggedInUser.getPassword())) throw new InternalAuthenticationServiceException("Old password did not match with an existing account.");
         setPassword(loggedInUser, requestDTO.getNewPassword());
-        var jwt = jwtService.generateJwt(loggedInUser);
-        return jwt;
+        userRepository.save(loggedInUser);
     }
 
     private void setPassword(User user, String password) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(password));
     }
     
 }
