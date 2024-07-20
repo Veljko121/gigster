@@ -2,6 +2,7 @@ package com.github.veljko121.gigster.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -21,6 +22,11 @@ public class AuthorizationHandler {
     @ExceptionHandler(MalformedJwtException.class)
     public ResponseEntity<?> handeJwtException(MalformedJwtException exception) {
         return new ResponseEntity<>(new InvalidJwtTokenResponseDTO(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity<?> handleAuthenticationException(InternalAuthenticationServiceException exception) {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
     
 }

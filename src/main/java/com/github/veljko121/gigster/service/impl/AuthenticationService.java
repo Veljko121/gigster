@@ -2,15 +2,18 @@ package com.github.veljko121.gigster.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.github.veljko121.gigster.core.enums.Role;
 import com.github.veljko121.gigster.core.service.IJwtService;
+import com.github.veljko121.gigster.dto.ChangePasswordRequestDTO;
 import com.github.veljko121.gigster.dto.CredentialsDTO;
 import com.github.veljko121.gigster.dto.RegisterRequestDTO;
 import com.github.veljko121.gigster.model.RegisteredUser;
+import com.github.veljko121.gigster.model.User;
 import com.github.veljko121.gigster.repository.RegisteredUserRepository;
 import com.github.veljko121.gigster.repository.UserRepository;
 import com.github.veljko121.gigster.service.IAuthenticationService;
@@ -37,7 +40,7 @@ public class AuthenticationService implements IAuthenticationService {
     public String register(RegisterRequestDTO requestDTO) {
         var user = modelMapper.map(requestDTO, RegisteredUser.class);
         user.setRole(Role.REGISTERED_USER);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        setPassword(user, user.getPassword());
         var savedUser = registeredUserRepository.save(user);
         var jwt = jwtService.generateJwt(savedUser);
         return jwt;
@@ -61,6 +64,19 @@ public class AuthenticationService implements IAuthenticationService {
     @Override
     public Boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public String changePassword(ChangePasswordRequestDTO requestDTO) {
+        var loggedInUser = userRepository.findById(jwtService.getLoggedInUserId()).orElseThrow();
+        if (!loggedInUser.getPassword().equals(requestDTO.getOldPassword())) throw new InternalAuthenticationServiceException("Old password did not match with an existing account.");
+        setPassword(loggedInUser, requestDTO.getNewPassword());
+        var jwt = jwtService.generateJwt(loggedInUser);
+        return jwt;
+    }
+
+    private void setPassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
     
 }

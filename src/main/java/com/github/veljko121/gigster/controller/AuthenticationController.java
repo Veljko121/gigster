@@ -3,6 +3,7 @@ package com.github.veljko121.gigster.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.veljko121.gigster.dto.AuthenticationResponseDTO;
+import com.github.veljko121.gigster.dto.ChangePasswordRequestDTO;
 import com.github.veljko121.gigster.dto.CredentialsDTO;
 import com.github.veljko121.gigster.dto.RegisterRequestDTO;
 import com.github.veljko121.gigster.service.IAuthenticationService;
@@ -47,6 +49,13 @@ public class AuthenticationController {
     @GetMapping("{email}/email-exists")
     public ResponseEntity<?> emailExists(@PathVariable @Email String email) {
         return ResponseEntity.ok().body(authenticationService.emailExists(email));
+    }
+
+    @PatchMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequestDTO requestDTO) {
+        var jwt = authenticationService.changePassword(requestDTO);
+        var authenticationResponse = new AuthenticationResponseDTO(jwt);
+        return ResponseEntity.ok().body(authenticationResponse);
     }
     
 }
