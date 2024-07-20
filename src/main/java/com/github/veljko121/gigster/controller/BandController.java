@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
 @RestController
 @RequestMapping("/api/bands")
 @RequiredArgsConstructor
@@ -35,7 +33,7 @@ public class BandController {
     public ResponseEntity<Collection<BandResponseDTO>> getAll() {
         return ResponseEntity.ok().body(bandService.findAll());
     }
-
+    
     @GetMapping("/{id}")
     public ResponseEntity<BandResponseDTO> getById(@PathVariable Integer id) {
         return ResponseEntity.ok().body(bandService.findById(id));
@@ -59,6 +57,12 @@ public class BandController {
     public ResponseEntity<BandResponseDTO> update(@PathVariable Integer id, @RequestBody BandRequestDTO updatedEntityRequestDTO) {
         var responseDTO = bandService.update(id, updatedEntityRequestDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+    
+    @GetMapping("/my")
+    @PreAuthorize("hasRole('REGISTERED_USER')")
+    public ResponseEntity<Collection<BandResponseDTO>> getAllBandsForLoggedInUser() {
+        return ResponseEntity.ok().body(bandService.findByLoggedInUser());        
     }
     
 }

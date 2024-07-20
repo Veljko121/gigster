@@ -1,5 +1,7 @@
 package com.github.veljko121.gigster.service.impl;
 
+import java.util.Collection;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,7 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
 
     private final ModelMapper modelMapper;
 
-    // private final BandRepository bandRepository;
+    private final BandRepository bandRepository;
 
     private final GenreRepository genreRepository;
 
@@ -30,7 +32,7 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
 
     public BandService(BandRepository bandRepository, GenreRepository genreRepository, RegisteredUserRepository registeredUserRepository, IJwtService jwtService, ModelMapper modelMapper) {
         super(bandRepository);
-        // this.bandRepository = bandRepository;
+        this.bandRepository = bandRepository;
         this.genreRepository = genreRepository;
         this.registeredUserRepository = registeredUserRepository;
         this.jwtService = jwtService;
@@ -80,6 +82,12 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
 
     private RegisteredUser getLoggedInRegisteredUser() {
         return registeredUserRepository.findById(jwtService.getLoggedInUserId()).orElseThrow();
+    }
+
+    @Override
+    public Collection<BandResponseDTO> findByLoggedInUser() {
+        var bands = bandRepository.findByOwner(getLoggedInRegisteredUser());
+        return mapToResponseDTOs(bands);
     }
     
 }
