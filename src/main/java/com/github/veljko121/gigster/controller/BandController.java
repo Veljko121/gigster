@@ -42,8 +42,7 @@ public class BandController {
     @PostMapping
     @PreAuthorize("hasRole('REGISTERED_USER')")
     public ResponseEntity<BandResponseDTO> create(@RequestBody BandRequestDTO requestDTO) {
-        var responseDTO = bandService.save(requestDTO);
-        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(bandService.save(requestDTO), HttpStatus.CREATED);
     }
     
     @DeleteMapping("/{id}")
@@ -55,8 +54,7 @@ public class BandController {
 
     @PutMapping("/{id}")
     public ResponseEntity<BandResponseDTO> update(@PathVariable Integer id, @RequestBody BandRequestDTO updatedEntityRequestDTO) {
-        var responseDTO = bandService.update(id, updatedEntityRequestDTO);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        return new ResponseEntity<>(bandService.update(id, updatedEntityRequestDTO), HttpStatus.OK);
     }
     
     @GetMapping("/my")
