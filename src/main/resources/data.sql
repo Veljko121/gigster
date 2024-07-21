@@ -28,3 +28,9 @@ VALUES
     (2, 3),
     (3, 1),
     (3, 3);
+
+INSERT INTO gig_listing(band_id, starting_price, price_per_additional_hour, minimum_duration_hours, maximum_additional_hours)
+VALUES
+    (1, 12000, 3000, 3, 2),
+    (2, 18000, 4000, 3, 3),
+    (3, 24000, 6000, 3, 5);

@@ -66,17 +66,18 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
 
     @Override
     protected GigListing mapUpdatedFieldsToDomain(GigListing entity, GigListingUpdateRequestDTO updatedEntityRequestDTO) {
-        entity.setMinumumDurationHalfHours(updatedEntityRequestDTO.getMinumumDurationHalfHours());
-        entity.setMaximumAdditionalHalfHours(updatedEntityRequestDTO.getMaximumAdditionalHalfHours());
+        entity.setMinimumDurationHours(updatedEntityRequestDTO.getMinimumDurationHours());
+        entity.setMaximumAdditionalHours(updatedEntityRequestDTO.getMaximumAdditionalHours());
         entity.setStartingPrice(updatedEntityRequestDTO.getStartingPrice());
-        entity.setPricePerAdditionalHalfHour(updatedEntityRequestDTO.getPricePerAdditionalHalfHour());
+        entity.setPricePerAdditionalHour(updatedEntityRequestDTO.getPricePerAdditionalHour());
         return entity;
     }
 
     private void checkOwner(Integer id) {
         var entity = findByIdDomain(id);
         var registeredUser = getLoggedInRegisteredUser();
-        if (entity.getBand().getOwner() != registeredUser) throw new UnauthorizedOperationException();
+        var bandOwner = entity.getBand().getOwner();
+        if (!bandOwner.equals(registeredUser)) throw new UnauthorizedOperationException();
     }
 
     private RegisteredUser getLoggedInRegisteredUser() {

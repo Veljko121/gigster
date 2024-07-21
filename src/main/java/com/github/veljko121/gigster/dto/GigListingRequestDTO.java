@@ -14,12 +14,12 @@ public class GigListingRequestDTO {
     private Double startingPrice;
     
     @PositiveOrZero @NotNull
-    private Double pricePerAdditionalHalfHour;
+    private Double pricePerAdditionalHour;
 
     @PositiveOrZero @NotNull
-    private Integer minumumDurationHalfHours;
+    private Double minimumDurationHours;
 
     @PositiveOrZero @NotNull
-    private Integer maximumAdditionalHalfHours;
+    private Double maximumAdditionalHours;
     
 }

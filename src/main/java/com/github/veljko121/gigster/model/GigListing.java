@@ -24,14 +24,14 @@ public class GigListing extends GenericEntity {
     
     @Column(nullable = false)
     @PositiveOrZero @NotNull
-    private Double pricePerAdditionalHalfHour;
+    private Double pricePerAdditionalHour;
 
     @Column(nullable = false)
     @PositiveOrZero @NotNull
-    private Integer minumumDurationHalfHours;
+    private Double minimumDurationHours;
 
     @Column(nullable = false)
     @PositiveOrZero @NotNull
-    private Integer maximumAdditionalHalfHours;
+    private Double maximumAdditionalHours;
 
 }

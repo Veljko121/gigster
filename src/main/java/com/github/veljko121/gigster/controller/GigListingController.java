@@ -14,6 +14,7 @@ import java.util.Collection;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/api/gig-listings")
+@RequestMapping("/api/listings/gigs")
 @RequiredArgsConstructor
 public class GigListingController {
 
@@ -39,17 +40,20 @@ public class GigListingController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('REGISTERED_USER')")
     public ResponseEntity<GigListingResponseDTO> create(@RequestBody GigListingRequestDTO requestDTO) {
         return new ResponseEntity<>(gigListingService.save(requestDTO), HttpStatus.CREATED);
     }
     
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('REGISTERED_USER')")
     public ResponseEntity<?> deleteById(@PathVariable Integer id) {
         gigListingService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('REGISTERED_USER')")
     public ResponseEntity<GigListingResponseDTO> update(@PathVariable Integer id, @RequestBody GigListingUpdateRequestDTO updatedEntityRequestDTO) {
         return new ResponseEntity<>(gigListingService.update(id, updatedEntityRequestDTO), HttpStatus.OK);
     }
@@ -58,6 +62,5 @@ public class GigListingController {
     public ResponseEntity<Collection<GigListingResponseDTO>> getByBand(@PathVariable Integer id) {
         return ResponseEntity.ok().body(gigListingService.findByBandId(id));
     }
-    
     
 }
