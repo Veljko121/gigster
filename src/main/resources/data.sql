@@ -16,7 +16,7 @@ VALUES
 
 INSERT INTO band(owner_id, name, type, description)
 VALUES
-    (1, 'Duo Perfetto', 0, 'Osnovan 2021. godine jedan je od najpoznatijih akutičnih dvojaca u Novom Sadu i okolini. Mladi, entuzijastični muzičari koji vole dobru atmosferu.'),
+    (1, 'Duo Perfetto', 0, 'Osnovan 2021. godine jedan je od najpoznatijih akustičnih dvojaca u Novom Sadu i okolini. Mladi, entuzijastični muzičari koji vole dobru atmosferu.'),
     (1, 'Ritmico Acoustic', 0, 'Novi bend u Novom Sadu, već dobro poznat ljubiteljima akustične muzike.'),
     (2, 'Melodico Band', 1, 'Kako samo ime kaže, ako ste željni dobre melodije, našli ste pravi bend.');
 
@@ -29,8 +29,14 @@ VALUES
     (3, 1),
     (3, 3);
 
-INSERT INTO gig_listing(band_id, starting_price, price_per_additional_hour, minimum_duration_hours, maximum_additional_hours)
+INSERT INTO listing(type, status)
 VALUES
-    (1, 12000, 3000, 3, 2),
-    (2, 18000, 4000, 3, 3),
-    (3, 24000, 6000, 3, 5);
+    (DEFAULT, DEFAULT),
+    (DEFAULT, DEFAULT),
+    (DEFAULT, DEFAULT);
+
+INSERT INTO gig_listing(id, band_id, starting_price, price_per_additional_hour, minimum_duration_hours, maximum_additional_hours)
+VALUES
+    (1, 1, 12000, 3000, 3, 2),
+    (2, 2, 18000, 4000, 3, 3),
+    (3, 3, 24000, 6000, 3, 5);

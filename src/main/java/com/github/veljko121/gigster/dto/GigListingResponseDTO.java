@@ -1,16 +1,12 @@
 package com.github.veljko121.gigster.dto;
 
-import java.time.LocalDateTime;
-
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class GigListingResponseDTO {
-
-    @NotNull
-    private Integer id;
+@Getter @Setter
+public class GigListingResponseDTO extends ListingResponseDTO {
 
     @PositiveOrZero @NotNull
     private BandResponseDTO band;
@@ -26,8 +22,5 @@ public class GigListingResponseDTO {
 
     @PositiveOrZero @NotNull
     private Double maximumAdditionalHours;
-
-    @NotNull
-    private LocalDateTime createdDateTime;
 
 }

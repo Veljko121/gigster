@@ -1,20 +1,18 @@
 package com.github.veljko121.gigster.dto;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 
+import com.github.veljko121.gigster.core.dto.GenericEntityResponseDTO;
 import com.github.veljko121.gigster.core.enums.BandType;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class BandResponseDTO {
-
-    @NotNull
-    private Integer id;
+@Getter @Setter
+public class BandResponseDTO extends GenericEntityResponseDTO {
 
     @NotBlank
     private String name;
@@ -30,7 +28,4 @@ public class BandResponseDTO {
     @NotNull
     private RegisteredUserResponseDTO owner;
 
-    @NotNull
-    private LocalDateTime createdDateTime;
-    
 }

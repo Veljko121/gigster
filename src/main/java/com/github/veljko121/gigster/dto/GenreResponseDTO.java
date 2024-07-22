@@ -1,14 +1,13 @@
 package com.github.veljko121.gigster.dto;
 
+import com.github.veljko121.gigster.core.dto.GenericEntityResponseDTO;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class GenreResponseDTO {
-
-    @NotNull
-    private Integer id;
+@Getter @Setter
+public class GenreResponseDTO extends GenericEntityResponseDTO {
 
     @NotBlank
     private String name;

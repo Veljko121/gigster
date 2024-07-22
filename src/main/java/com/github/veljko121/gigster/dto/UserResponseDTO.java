@@ -1,15 +1,15 @@
 package com.github.veljko121.gigster.dto;
 
-import java.time.LocalDateTime;
-
+import com.github.veljko121.gigster.core.dto.GenericEntityResponseDTO;
 import com.github.veljko121.gigster.core.enums.Role;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class UserResponseDTO {
+@Getter @Setter
+public class UserResponseDTO extends GenericEntityResponseDTO {
     
     @NotBlank
     private String username;
@@ -19,8 +19,5 @@ public class UserResponseDTO {
     
     @NotNull
     private Role role;
-    
-    @NotNull
-    private LocalDateTime createdDateTime;
     
 }
