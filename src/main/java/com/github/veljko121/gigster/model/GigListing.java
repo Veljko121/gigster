@@ -1,7 +1,5 @@
 package com.github.veljko121.gigster.model;
 
-import com.github.veljko121.gigster.core.model.GenericEntity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -12,7 +10,7 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-public class GigListing extends GenericEntity {
+public class GigListing extends Listing {
 
     @ManyToOne
     @NotNull
