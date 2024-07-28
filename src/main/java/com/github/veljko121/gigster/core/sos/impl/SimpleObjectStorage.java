@@ -13,7 +13,7 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
     private String simpleObjectStoragePort;
 
     protected String getSimpleObjectStorageUrl() {
-        return simpleObjectStorageHost + ':' + simpleObjectStoragePort;
+        return "http://" + simpleObjectStorageHost + ':' + simpleObjectStoragePort;
     }
 
 }
