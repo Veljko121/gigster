@@ -1,5 +1,7 @@
 package com.github.veljko121.gigster.sos.impl;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,11 @@ public class ProfilePictureStorage extends ImageStorage implements IProfilePictu
 
     private String getProfilePicturePath(RegisteredUser registeredUser) {
         return profilePicturesDirectory + "/" + registeredUser.getProfilePicturePath();
+    }
+
+    @Override
+    public byte[] getByFilename(String profilePictureName) throws IOException, InterruptedException {
+        return super.getByFilename(profilePicturesDirectory + '/' + profilePictureName);
     }
     
 }

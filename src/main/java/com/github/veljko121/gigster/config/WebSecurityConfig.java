@@ -48,6 +48,7 @@ public class WebSecurityConfig {
         "/api/bands/**",
         "/api/listings/gigs/**",
         "/api/registered-users/{id}",
+        "/api/files/images/**",
     };
     
     private final AuthenticationProvider authenticationProvider;

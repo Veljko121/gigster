@@ -12,7 +12,6 @@ import com.github.veljko121.gigster.dto.RegisteredUserUpdateRequestDTO;
 import com.github.veljko121.gigster.model.RegisteredUser;
 import com.github.veljko121.gigster.repository.RegisteredUserRepository;
 import com.github.veljko121.gigster.service.IRegisteredUserService;
-import com.github.veljko121.gigster.sos.IProfilePictureStorage;
 
 @Service
 public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterRequestDTO, RegisteredUserResponseDTO, RegisteredUserUpdateRequestDTO, Integer> implements IRegisteredUserService {
@@ -23,22 +22,16 @@ public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterR
 
     private final IJwtService jwtService;
 
-    private final IProfilePictureStorage profilePictureStorage;
-
-    public RegisteredUserService(RegisteredUserRepository registeredUserRepository, IJwtService jwtService, IProfilePictureStorage profilePictureStorage, ModelMapper modelMapper) {
+    public RegisteredUserService(RegisteredUserRepository registeredUserRepository, IJwtService jwtService, ModelMapper modelMapper) {
         super(registeredUserRepository);
         this.registeredUserRepository = registeredUserRepository;
-        this.profilePictureStorage = profilePictureStorage;
         this.modelMapper = modelMapper;
         this.jwtService = jwtService;
     }
 
     @Override
     protected RegisteredUserResponseDTO mapToResponseDTO(RegisteredUser entity) {
-        var responseDTO = modelMapper.map(entity, RegisteredUserResponseDTO.class);
-        var profilePicturePath = profilePictureStorage.getFullProfilePicturePath(entity);
-        responseDTO.setProfilePicturePath(profilePicturePath);
-        return responseDTO;
+        return modelMapper.map(entity, RegisteredUserResponseDTO.class);
     }
 
     @Override

@@ -1,3 +1,9 @@
 package com.github.veljko121.gigster.core.sos;
 
-public interface ISimpleObjectStorage { }
+import java.io.IOException;
+
+public interface ISimpleObjectStorage {
+
+    byte[] getByFilename(String filename) throws IOException, InterruptedException;
+
+}
