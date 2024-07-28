@@ -17,5 +17,7 @@ public class RegisteredUser extends User {
     @NotBlank
     @Column(nullable = false, length = 30)
     private String lastName;
-    
+
+    private String profilePicturePath;
+
 }

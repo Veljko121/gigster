@@ -3,10 +3,10 @@ VALUES
     ('veljko', 'nikolicveljko01@gmail.com', '$2a$10$GvBT2HXPqMdOTKDbnjxEVOkvnABMUzNclJ3u91Qhcxysi8vxOK7/W', 0),
     ('marko', 'nikolicmarko1243@gmail.com', '$2a$10$aRzJxhDfBJdbvM8L7G366eZ5opg6/aXUNvJJYBmGYfNkSGTA0AYQy', 0);
 
-INSERT INTO registered_user(id, first_name, last_name)
+INSERT INTO registered_user(id, first_name, last_name, profile_picture_path)
 VALUES
-    (1, 'Veljko', 'Nikolić'),
-    (2, 'Marko', 'Nikolić');
+    (1, 'Veljko', 'Nikolić', '1.jpeg'),
+    (2, 'Marko', 'Nikolić', '2.jpeg');
 
 INSERT INTO genre(name)
 VALUES

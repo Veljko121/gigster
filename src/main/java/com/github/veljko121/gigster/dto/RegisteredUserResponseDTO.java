@@ -13,4 +13,6 @@ public class RegisteredUserResponseDTO extends UserResponseDTO {
     @NotBlank
     private String lastName;
 
+    private String profilePicturePath;
+
 }
