@@ -1,4 +1,4 @@
-package com.github.veljko121.gigster.core.sos.impl;
+package com.github.veljko121.gigster.core.storage.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.veljko121.gigster.core.sos.ISimpleObjectStorage;
+import com.github.veljko121.gigster.core.storage.ISimpleObjectStorage;
 
 public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
 
@@ -24,12 +24,12 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
     private HttpClient httpClient = HttpClient.newBuilder().build();
 
     protected String getSimpleObjectStorageUrl() {
-        return "http://" + simpleObjectStorageHost + ':' + simpleObjectStoragePort;
+        return "http://" + simpleObjectStorageHost + ':' + simpleObjectStoragePort + '/';
     }
 
     @Override
     public byte[] getByFilename(String filename) throws IOException, InterruptedException {
-        var path = getSimpleObjectStorageUrl() + '/' + filename;
+        var path = getSimpleObjectStorageUrl() + filename;
         var request = HttpRequest.newBuilder(URI.create(path)).GET().build();
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofByteArray());
         return response.body();
@@ -43,9 +43,9 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
     @Override
     public String upload(MultipartFile file, String filename) throws IOException, InterruptedException {
         var fileExtension = extractFileExtension(file);
-
         var filePath = filename + fileExtension;
-        var requestPath = getSimpleObjectStorageUrl() + '/' + filePath;
+        var requestPath = getSimpleObjectStorageUrl() + filePath;
+
         var boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

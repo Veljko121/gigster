@@ -1,22 +1,17 @@
-package com.github.veljko121.gigster.core.sos.impl;
+package com.github.veljko121.gigster.core.storage.impl;
 
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.veljko121.gigster.core.sos.IImageStorage;
+import com.github.veljko121.gigster.core.storage.IImageStorage;
 
 
 public class ImageStorage extends SimpleObjectStorage implements IImageStorage {
 
     @Value("${simple-object-storage.images-directory}")
     private String imagesDirectory;
-
-    @Override
-    public String getFullImagePath(String imageName) {
-        return getSimpleObjectStorageUrl() + '/' + getImagePath(imageName);
-    }
 
     @Override
     public byte[] getByFilename(String imageName) throws IOException, InterruptedException {

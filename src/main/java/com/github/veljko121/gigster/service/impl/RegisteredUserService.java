@@ -15,7 +15,7 @@ import com.github.veljko121.gigster.dto.RegisteredUserUpdateRequestDTO;
 import com.github.veljko121.gigster.model.RegisteredUser;
 import com.github.veljko121.gigster.repository.RegisteredUserRepository;
 import com.github.veljko121.gigster.service.IRegisteredUserService;
-import com.github.veljko121.gigster.sos.impl.ProfilePictureStorage;
+import com.github.veljko121.gigster.storage.impl.ProfilePictureStorage;
 
 @Service
 public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterRequestDTO, RegisteredUserResponseDTO, RegisteredUserUpdateRequestDTO, Integer> implements IRegisteredUserService {

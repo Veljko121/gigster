@@ -3,7 +3,7 @@ package com.github.veljko121.gigster.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.veljko121.gigster.sos.IProfilePictureStorage;
+import com.github.veljko121.gigster.storage.IProfilePictureStorage;
 
 import lombok.RequiredArgsConstructor;
 

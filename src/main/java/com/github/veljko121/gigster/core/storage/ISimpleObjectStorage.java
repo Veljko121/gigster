@@ -1,4 +1,4 @@
-package com.github.veljko121.gigster.core.sos;
+package com.github.veljko121.gigster.core.storage;
 
 import java.io.IOException;
 

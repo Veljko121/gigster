@@ -1,4 +1,4 @@
-package com.github.veljko121.gigster.sos.impl;
+package com.github.veljko121.gigster.storage.impl;
 
 import java.io.IOException;
 
@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.veljko121.gigster.core.sos.impl.ImageStorage;
-import com.github.veljko121.gigster.model.RegisteredUser;
-import com.github.veljko121.gigster.sos.IProfilePictureStorage;
+import com.github.veljko121.gigster.core.storage.impl.ImageStorage;
+import com.github.veljko121.gigster.storage.IProfilePictureStorage;
 
 @Service
 public class ProfilePictureStorage extends ImageStorage implements IProfilePictureStorage {
@@ -16,15 +15,6 @@ public class ProfilePictureStorage extends ImageStorage implements IProfilePictu
     @Value("${simple-object-storage.images-directory.profile-pictures}")
     private String profilePicturesDirectory;
     
-    @Override
-    public String getFullProfilePicturePath(RegisteredUser registeredUser) {
-        return getFullImagePath(getProfilePicturePath(registeredUser));
-    }
-
-    private String getProfilePicturePath(RegisteredUser registeredUser) {
-        return getProfilePicturePath(registeredUser.getProfilePicturePath());
-    }
-
     @Override
     public byte[] getByFilename(String profilePictureName) throws IOException, InterruptedException {
         return super.getByFilename(profilePicturesDirectory + '/' + profilePictureName);
