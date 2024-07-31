@@ -24,15 +24,23 @@ public class ImageStorage extends SimpleObjectStorage implements IImageStorage {
     }
 
     @Override
-    public String upload(MultipartFile file, String imageName) throws IOException, InterruptedException {
-        var contentType = file.getContentType();
+    public String upload(MultipartFile file, String newFilename) throws IOException, InterruptedException {
+        return this.upload(file.getBytes(), file.getContentType(), file.getOriginalFilename(), newFilename);
+    }
 
+    @Override
+    public String upload(byte[] fileBytes, String contentType, String originalFilename) throws IOException, InterruptedException {
+        return this.upload(fileBytes, contentType, originalFilename, originalFilename);
+    }
+    
+    @Override
+    public String upload(byte[] fileBytes, String contentType, String originalFilename, String newFilename) throws IOException, InterruptedException {
         if (contentType == null) throw new IllegalArgumentException("Error with the attached file.");
         
         if (!contentType.contains("image")) throw new IllegalArgumentException("Attached file is not an image.");
 
-        var path = getImagePath(imageName);
-        var fullImagePath = super.upload(file, path);
+        var path = getImagePath(newFilename);
+        var fullImagePath = super.upload(fileBytes, contentType, originalFilename, path);
         var imagePath = fullImagePath.replace(imagesDirectory + '/', "");
         
         return imagePath;

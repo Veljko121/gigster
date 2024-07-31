@@ -10,6 +10,10 @@ public interface ISimpleObjectStorage {
 
     String upload(MultipartFile file) throws IOException, InterruptedException;
 
-    String upload(MultipartFile file, String filename) throws IOException, InterruptedException;
+    String upload(MultipartFile file, String newFilename) throws IOException, InterruptedException;
+
+    String upload(byte[] fileBytes, String contentType, String originalFilename) throws IOException, InterruptedException;
+
+    String upload(byte[] fileBytes, String contentType, String originalFilename, String newFilename) throws IOException, InterruptedException;
 
 }

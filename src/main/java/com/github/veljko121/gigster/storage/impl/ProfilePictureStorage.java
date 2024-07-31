@@ -26,9 +26,19 @@ public class ProfilePictureStorage extends ImageStorage implements IProfilePictu
     }
 
     @Override
-    public String upload(MultipartFile file, String filename) throws IOException, InterruptedException {
-        var path = getProfilePicturePath(filename);
-        var fullProfilePicturePath = super.upload(file, path);
+    public String upload(MultipartFile file, String newFilename) throws IOException, InterruptedException {
+        return this.upload(file.getBytes(), file.getContentType(), file.getOriginalFilename(), newFilename);
+    }
+
+    @Override
+    public String upload(byte[] fileBytes, String contentType, String originalFilename) throws IOException, InterruptedException {
+        return this.upload(fileBytes, contentType, originalFilename, originalFilename);
+    }
+
+    @Override
+    public String upload(byte[] fileBytes, String contentType, String originalFilename, String newFilename) throws IOException, InterruptedException {
+        var path = getProfilePicturePath(newFilename);
+        var fullProfilePicturePath = super.upload(fileBytes, contentType, originalFilename, path);
         var profilePicturePath = fullProfilePicturePath.replace(profilePicturesDirectory + '/', "");
         return profilePicturePath;
     }

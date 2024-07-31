@@ -23,8 +23,18 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
 
     private HttpClient httpClient = HttpClient.newBuilder().build();
 
-    protected String getSimpleObjectStorageUrl() {
+    private String getSimpleObjectStorageUrl() {
         return "http://" + simpleObjectStorageHost + ':' + simpleObjectStoragePort + '/';
+    }
+
+    @Override
+    public String upload(MultipartFile file) throws IOException, InterruptedException {
+        return this.upload(file, file.getOriginalFilename());
+    }
+
+    @Override
+    public String upload(MultipartFile file, String newFilename) throws IOException, InterruptedException {
+        return this.upload(file.getBytes(), file.getContentType(), file.getOriginalFilename(), newFilename);
     }
 
     @Override
@@ -36,23 +46,23 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
     }
 
     @Override
-    public String upload(MultipartFile file) throws IOException, InterruptedException {
-        return upload(file, file.getOriginalFilename());
+    public String upload(byte[] fileBytes, String contentType, String originalFilename) throws IOException, InterruptedException {
+        return upload(fileBytes, contentType, originalFilename, originalFilename);
     }
 
     @Override
-    public String upload(MultipartFile file, String filename) throws IOException, InterruptedException {
-        var fileExtension = extractFileExtension(file);
-        var filePath = filename + fileExtension;
+    public String upload(byte[] fileBytes, String contentType, String originalFilename, String newFilename) throws IOException, InterruptedException {
+        var fileExtension = extractFileExtension(contentType);
+        var filePath = newFilename + fileExtension;
         var requestPath = getSimpleObjectStorageUrl() + filePath;
 
         var boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(("--" + boundary + "\r\n").getBytes(StandardCharsets.UTF_8));
-        outputStream.write(("Content-Disposition: form-data; name=\"file\"; filename=\"" + filename + "\"\r\n").getBytes(StandardCharsets.UTF_8));
-        outputStream.write(("Content-Type: " + file.getContentType() + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
-        outputStream.write(file.getBytes());
+        outputStream.write(("Content-Disposition: form-data; name=\"file\"; filename=\"" + newFilename + "\"\r\n").getBytes(StandardCharsets.UTF_8));
+        outputStream.write(("Content-Type: " + contentType + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
+        outputStream.write(fileBytes);
         outputStream.write(("\r\n--" + boundary + "--\r\n").getBytes(StandardCharsets.UTF_8));
 
         var request = HttpRequest.newBuilder(URI.create(requestPath))
@@ -69,12 +79,8 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
         return filePath;
     }
 
-    private String extractFileExtension(MultipartFile file) {
-        return extractFileExtension(file.getOriginalFilename());
-    }
-
-    private String extractFileExtension(String filename) {
-        var fileExtensionTokens = filename.split("\\.");
+    private String extractFileExtension(String contentType) {
+        var fileExtensionTokens = contentType.split("/");
         var fileExtension = '.' + fileExtensionTokens[fileExtensionTokens.length - 1];
         return fileExtension;
     }
