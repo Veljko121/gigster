@@ -1,5 +1,9 @@
 package com.github.veljko121.gigster.service;
 
+import java.io.IOException;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.github.veljko121.gigster.core.service.ICRUDService;
 import com.github.veljko121.gigster.dto.AuthenticationResponseDTO;
 import com.github.veljko121.gigster.dto.RegisterRequestDTO;
@@ -12,5 +16,7 @@ public interface IRegisteredUserService extends ICRUDService<RegisteredUser, Reg
     RegisteredUserResponseDTO getLoggedInRegisteredUser();
 
     AuthenticationResponseDTO updateLoggedInRegisteredUserProfile(RegisteredUserUpdateRequestDTO requestDTO);
+
+    void updateProfilePicture(MultipartFile file) throws IOException, InterruptedException;
     
 }

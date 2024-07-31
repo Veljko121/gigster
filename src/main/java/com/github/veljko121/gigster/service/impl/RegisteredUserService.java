@@ -1,7 +1,10 @@
 package com.github.veljko121.gigster.service.impl;
 
+import java.io.IOException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.veljko121.gigster.core.service.IJwtService;
 import com.github.veljko121.gigster.core.service.impl.CRUDService;
@@ -12,6 +15,7 @@ import com.github.veljko121.gigster.dto.RegisteredUserUpdateRequestDTO;
 import com.github.veljko121.gigster.model.RegisteredUser;
 import com.github.veljko121.gigster.repository.RegisteredUserRepository;
 import com.github.veljko121.gigster.service.IRegisteredUserService;
+import com.github.veljko121.gigster.sos.impl.ProfilePictureStorage;
 
 @Service
 public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterRequestDTO, RegisteredUserResponseDTO, RegisteredUserUpdateRequestDTO, Integer> implements IRegisteredUserService {
@@ -20,13 +24,16 @@ public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterR
 
     private final RegisteredUserRepository registeredUserRepository;
 
+    private final ProfilePictureStorage profilePictureStorage;
+
     private final IJwtService jwtService;
 
-    public RegisteredUserService(RegisteredUserRepository registeredUserRepository, IJwtService jwtService, ModelMapper modelMapper) {
+    public RegisteredUserService(RegisteredUserRepository registeredUserRepository, ProfilePictureStorage profilePictureStorage, IJwtService jwtService, ModelMapper modelMapper) {
         super(registeredUserRepository);
         this.registeredUserRepository = registeredUserRepository;
-        this.modelMapper = modelMapper;
+        this.profilePictureStorage = profilePictureStorage;
         this.jwtService = jwtService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -65,6 +72,15 @@ public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterR
 
     private RegisteredUser getLoggedInRegisteredUserDomain() {
         return registeredUserRepository.findById(jwtService.getLoggedInUserId()).orElseThrow();
+    }
+
+    @Override
+    public void updateProfilePicture(MultipartFile file) throws IOException, InterruptedException {
+        var loggedInRegisteredUser = getLoggedInRegisteredUserDomain();
+        var profilePictureName = loggedInRegisteredUser.getId().toString();
+        var profilePicturePath = profilePictureStorage.upload(file, profilePictureName);
+        loggedInRegisteredUser.setProfilePicturePath(profilePicturePath);
+        registeredUserRepository.save(loggedInRegisteredUser);
     }
     
 }
