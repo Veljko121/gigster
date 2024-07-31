@@ -82,5 +82,16 @@ public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterR
         loggedInRegisteredUser.setProfilePicturePath(profilePicturePath);
         registeredUserRepository.save(loggedInRegisteredUser);
     }
+
+    @Override
+    public byte[] getProfilePictureForLoggedInRegisteredUser() throws IOException, InterruptedException {
+        return getProfilePictureByRegisteredUserId(getLoggedInRegisteredUser().getId());
+    }
+
+    @Override
+    public byte[] getProfilePictureByRegisteredUserId(Integer id) throws IOException, InterruptedException {
+        var registeredUser = findByIdDomain(id);
+        return profilePictureStorage.getByFilename(registeredUser.getProfilePicturePath());
+    }
     
 }

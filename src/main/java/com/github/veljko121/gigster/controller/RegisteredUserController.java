@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,6 +55,18 @@ public class RegisteredUserController {
     public ResponseEntity<?> updateProfilePicture(@RequestPart("file") MultipartFile file) throws IOException, InterruptedException {
         registeredUserService.updateProfilePicture(file);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/profile-picture")
+    public ResponseEntity<byte[]> getProfilePictureForLoggedInRegisteredUser() throws IOException, InterruptedException {
+        var profilePicture = registeredUserService.getProfilePictureForLoggedInRegisteredUser();
+        return ResponseEntity.ok(profilePicture);
+    }
+
+    @GetMapping("/{id}/profile-picture")
+    public ResponseEntity<byte[]> getProfilePictureByRegisteredUserId(@PathVariable Integer id) throws IOException, InterruptedException {
+        var profilePicture = registeredUserService.getProfilePictureByRegisteredUserId(id);
+        return ResponseEntity.ok(profilePicture);
     }
     
 }

@@ -18,5 +18,9 @@ public interface IRegisteredUserService extends ICRUDService<RegisteredUser, Reg
     AuthenticationResponseDTO updateLoggedInRegisteredUserProfile(RegisteredUserUpdateRequestDTO requestDTO);
 
     void updateProfilePicture(MultipartFile file) throws IOException, InterruptedException;
+
+    byte[] getProfilePictureForLoggedInRegisteredUser() throws IOException, InterruptedException;
+
+    byte[] getProfilePictureByRegisteredUserId(Integer registeredUserId) throws IOException, InterruptedException;
     
 }
