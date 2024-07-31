@@ -85,7 +85,7 @@ public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterR
 
     @Override
     public byte[] getProfilePictureForLoggedInRegisteredUser() throws IOException, InterruptedException {
-        return getProfilePictureByRegisteredUserId(getLoggedInRegisteredUser().getId());
+        return getProfilePictureByRegisteredUserId(getLoggedInRegisteredUserDomain().getId());
     }
 
     @Override
