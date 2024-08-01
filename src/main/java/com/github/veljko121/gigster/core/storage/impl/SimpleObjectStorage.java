@@ -52,7 +52,7 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
 
     @Override
     public String upload(byte[] fileBytes, String contentType, String originalFilename, String newFilename) throws IOException, InterruptedException {
-        var fileExtension = extractFileExtension(contentType);
+        var fileExtension = extractFileExtension(originalFilename);
         var filePath = newFilename + fileExtension;
         var requestPath = getSimpleObjectStorageUrl() + filePath;
 
@@ -79,8 +79,8 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
         return filePath;
     }
 
-    private String extractFileExtension(String contentType) {
-        var fileExtensionTokens = contentType.split("/");
+    private String extractFileExtension(String filename) {
+        var fileExtensionTokens = filename.split("\\.");
         var fileExtension = '.' + fileExtensionTokens[fileExtensionTokens.length - 1];
         return fileExtension;
     }
