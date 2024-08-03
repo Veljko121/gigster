@@ -5,8 +5,8 @@ VALUES
 
 INSERT INTO registered_user(id, first_name, last_name, profile_picture_path)
 VALUES
-    (1, 'Veljko', 'Nikolić', '1.jpeg'),
-    (2, 'Marko', 'Nikolić', '2.jpeg');
+    (1, 'Veljko', 'Nikolić', '1.png'),
+    (2, 'Marko', 'Nikolić', '2.png');
 
 INSERT INTO genre(name)
 VALUES
