@@ -43,7 +43,7 @@ public class RegisteredUserController {
         return ResponseEntity.ok().body(registeredUserService.getLoggedInRegisteredUser());
     }
 
-    @PutMapping("/update")
+    @PutMapping
     @PreAuthorize("hasRole('REGISTERED_USER')")
     public ResponseEntity<AuthenticationResponseDTO> updateLoggedInUserProfile(@RequestBody RegisteredUserUpdateRequestDTO requestDTO) {
         var responseDTO = registeredUserService.updateLoggedInRegisteredUserProfile(requestDTO);
