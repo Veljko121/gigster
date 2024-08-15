@@ -46,6 +46,7 @@ public class WebSecurityConfig {
 
     private static final String[] ALLOWED_GET_METHODS = {
         "/api/bands/**",
+        "/api/genres/**",
         "/api/listings/gigs/**",
         "/api/registered-users/{id}/**",
     };

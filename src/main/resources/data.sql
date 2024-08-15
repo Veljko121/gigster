@@ -12,7 +12,10 @@ INSERT INTO genre(name)
 VALUES
     ('Pop'),
     ('Rock'),
-    ('Folk');
+    ('Folk'),
+    ('Jazz'),
+    ('Blues'),
+    ('Country');
 
 INSERT INTO band(owner_id, name, type, description)
 VALUES

@@ -2,6 +2,7 @@ package com.github.veljko121.gigster.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.veljko121.gigster.core.enums.BandType;
 import com.github.veljko121.gigster.dto.BandRequestDTO;
 import com.github.veljko121.gigster.dto.BandResponseDTO;
 import com.github.veljko121.gigster.service.IBandService;
@@ -63,4 +64,9 @@ public class BandController {
         return ResponseEntity.ok().body(bandService.findByLoggedInUser());        
     }
     
+    @GetMapping("/types")
+    public ResponseEntity<BandType[]> getBandTypes() {
+        return ResponseEntity.ok().body(BandType.values());        
+    }
+
 }
