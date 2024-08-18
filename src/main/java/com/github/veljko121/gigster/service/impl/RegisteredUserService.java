@@ -15,7 +15,7 @@ import com.github.veljko121.gigster.dto.RegisteredUserUpdateRequestDTO;
 import com.github.veljko121.gigster.model.RegisteredUser;
 import com.github.veljko121.gigster.repository.RegisteredUserRepository;
 import com.github.veljko121.gigster.service.IRegisteredUserService;
-import com.github.veljko121.gigster.storage.impl.ProfilePictureStorage;
+import com.github.veljko121.gigster.storage.IProfilePictureStorage;
 
 @Service
 public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterRequestDTO, RegisteredUserResponseDTO, RegisteredUserUpdateRequestDTO, Integer> implements IRegisteredUserService {
@@ -24,11 +24,11 @@ public class RegisteredUserService extends CRUDService<RegisteredUser, RegisterR
 
     private final RegisteredUserRepository registeredUserRepository;
 
-    private final ProfilePictureStorage profilePictureStorage;
+    private final IProfilePictureStorage profilePictureStorage;
 
     private final IJwtService jwtService;
 
-    public RegisteredUserService(RegisteredUserRepository registeredUserRepository, ProfilePictureStorage profilePictureStorage, IJwtService jwtService, ModelMapper modelMapper) {
+    public RegisteredUserService(RegisteredUserRepository registeredUserRepository, IProfilePictureStorage profilePictureStorage, IJwtService jwtService, ModelMapper modelMapper) {
         super(registeredUserRepository);
         this.registeredUserRepository = registeredUserRepository;
         this.profilePictureStorage = profilePictureStorage;
