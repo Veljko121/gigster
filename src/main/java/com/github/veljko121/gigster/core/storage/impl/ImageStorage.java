@@ -8,14 +8,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.veljko121.gigster.core.storage.IImageStorage;
 
 
-public class ImageStorage extends SimpleObjectStorage implements IImageStorage {
+public abstract class ImageStorage extends SimpleObjectStorage implements IImageStorage {
 
-    @Value("${simple-object-storage.images-directory}")
+    @Value("${simple-object-storage.images-directory:images}")
     private String imagesDirectory;
 
     @Override
     public byte[] getByFilename(String imageName) throws IOException, InterruptedException {
-        return super.getByFilename(getImagePath(imageName));
+        return super.getByFilename(getImagesSubdirectory() + '/' + imageName);
     }
 
     @Override
@@ -39,15 +39,17 @@ public class ImageStorage extends SimpleObjectStorage implements IImageStorage {
         
         if (!contentType.contains("image")) throw new IllegalArgumentException("Attached file is not an image.");
 
-        var path = getImagePath(newFilename);
-        var fullImagePath = super.upload(fileBytes, contentType, originalFilename, path);
-        var imagePath = fullImagePath.replace(imagesDirectory + '/', "");
+        var fullImagePath = super.upload(fileBytes, contentType, originalFilename, newFilename);
+        var imagePath = fullImagePath.replace(getImagesSubdirectory() + '/', "");
         
         return imagePath;
     }
 
-    private String getImagePath(String imageName) {
-        return imagesDirectory + '/' + imageName;
+    protected abstract String getImagesSubdirectory();
+
+    @Override
+    protected String getFilesSubdirectory() {
+        return imagesDirectory;
     }
 
 }

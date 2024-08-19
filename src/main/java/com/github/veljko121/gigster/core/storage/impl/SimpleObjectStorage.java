@@ -28,6 +28,14 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
     }
 
     @Override
+    public byte[] getByFilename(String filename) throws IOException, InterruptedException {
+        var path = url() + getFilesSubdirectory() + '/' + filename;
+        var request = HttpRequest.newBuilder(URI.create(path)).GET().build();
+        var response = httpClient.send(request, HttpResponse.BodyHandlers.ofByteArray());
+        return response.body();
+    }
+
+    @Override
     public String upload(MultipartFile file) throws IOException, InterruptedException {
         return this.upload(file, file.getOriginalFilename());
     }
@@ -35,14 +43,6 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
     @Override
     public String upload(MultipartFile file, String newFilename) throws IOException, InterruptedException {
         return this.upload(file.getBytes(), file.getContentType(), file.getOriginalFilename(), newFilename);
-    }
-
-    @Override
-    public byte[] getByFilename(String filename) throws IOException, InterruptedException {
-        var path = url() + filename;
-        var request = HttpRequest.newBuilder(URI.create(path)).GET().build();
-        var response = httpClient.send(request, HttpResponse.BodyHandlers.ofByteArray());
-        return response.body();
     }
 
     @Override
@@ -54,7 +54,7 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
     public String upload(byte[] fileBytes, String contentType, String originalFilename, String newFilename) throws IOException, InterruptedException {
         var fileExtension = extractFileExtension(originalFilename);
         var filePath = newFilename + fileExtension;
-        var requestPath = url() + filePath;
+        var requestPath = url() + getFilesSubdirectory() + '/' + filePath;
 
         var boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
 
@@ -76,6 +76,8 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
             throw new IOException("Failed to upload file: " + response.body());
         }
 
+        filePath.replace(getFilesSubdirectory(), "");
+
         return filePath;
     }
 
@@ -84,5 +86,7 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
         var fileExtension = '.' + fileExtensionTokens[fileExtensionTokens.length - 1];
         return fileExtension;
     }
+
+    protected abstract String getFilesSubdirectory();
 
 }
