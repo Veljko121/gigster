@@ -23,7 +23,7 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
 
     private HttpClient httpClient = HttpClient.newBuilder().build();
 
-    private String getSimpleObjectStorageUrl() {
+    private String url() {
         return "http://" + simpleObjectStorageHost + ':' + simpleObjectStoragePort + '/';
     }
 
@@ -39,7 +39,7 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
 
     @Override
     public byte[] getByFilename(String filename) throws IOException, InterruptedException {
-        var path = getSimpleObjectStorageUrl() + filename;
+        var path = url() + filename;
         var request = HttpRequest.newBuilder(URI.create(path)).GET().build();
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofByteArray());
         return response.body();
@@ -54,7 +54,7 @@ public abstract class SimpleObjectStorage implements ISimpleObjectStorage {
     public String upload(byte[] fileBytes, String contentType, String originalFilename, String newFilename) throws IOException, InterruptedException {
         var fileExtension = extractFileExtension(originalFilename);
         var filePath = newFilename + fileExtension;
-        var requestPath = getSimpleObjectStorageUrl() + filePath;
+        var requestPath = url() + filePath;
 
         var boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
 

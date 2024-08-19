@@ -25,6 +25,9 @@ public class BandResponseDTO extends GenericEntityResponseDTO {
     @NotEmpty
     private Collection<GenreResponseDTO> genres;
 
+    @NotEmpty
+    private Collection<BandPhotoResponseDTO> photos;
+
     @NotNull
     private RegisteredUserResponseDTO owner;
 

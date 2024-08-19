@@ -3,21 +3,19 @@ package com.github.veljko121.gigster.storage.impl;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.veljko121.gigster.core.storage.impl.ImageStorage;
-import com.github.veljko121.gigster.storage.IProfilePictureStorage;
+import com.github.veljko121.gigster.storage.IBandPhotosStorage;
 
-@Service
-public class ProfilePictureStorage extends ImageStorage implements IProfilePictureStorage {
+public class BandPhotosStorage extends ImageStorage implements IBandPhotosStorage {
     
-    @Value("${simple-object-storage.images-directory.profile-pictures}")
-    private String profilePicturesDirectory;
-    
+    @Value("${simple-object-storage.images-directory.band-pictures}")
+    private String bandPhotosDirectory;
+
     @Override
-    public byte[] getByFilename(String profilePictureName) throws IOException, InterruptedException {
-        return super.getByFilename(getProfilePicturePath(profilePictureName));
+    public byte[] getByFilename(String bandPhotoFilename) throws IOException, InterruptedException {
+        return super.getByFilename(getBandPhotoPath(bandPhotoFilename));
     }
 
     @Override
@@ -37,14 +35,14 @@ public class ProfilePictureStorage extends ImageStorage implements IProfilePictu
 
     @Override
     public String upload(byte[] fileBytes, String contentType, String originalFilename, String newFilename) throws IOException, InterruptedException {
-        var path = getProfilePicturePath(newFilename);
-        var fullProfilePicturePath = super.upload(fileBytes, contentType, originalFilename, path);
-        var profilePicturePath = fullProfilePicturePath.replace(profilePicturesDirectory + '/', "");
-        return profilePicturePath;
+        var path = getBandPhotoPath(newFilename);
+        var fullBandPhotoPath = super.upload(fileBytes, contentType, originalFilename, path);
+        var bandPhotoPath = fullBandPhotoPath.replace(bandPhotosDirectory + '/', "");
+        return bandPhotoPath;
     }
 
-    private String getProfilePicturePath(String profilePictureName) {
-        return profilePicturesDirectory + '/' + profilePictureName;
+    private String getBandPhotoPath(String bandPhotoFilename) {
+        return bandPhotosDirectory + '/' + bandPhotoFilename;
     }
     
 }
