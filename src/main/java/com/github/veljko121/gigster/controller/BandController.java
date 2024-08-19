@@ -1,6 +1,7 @@
 package com.github.veljko121.gigster.controller;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.veljko121.gigster.core.enums.BandType;
 import com.github.veljko121.gigster.dto.BandRequestDTO;
@@ -10,7 +11,9 @@ import com.github.veljko121.gigster.service.IBandService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,6 +71,12 @@ public class BandController {
     @GetMapping("/types")
     public ResponseEntity<BandType[]> getBandTypes() {
         return ResponseEntity.ok().body(BandType.values());        
+    }
+
+    @PatchMapping("/{id}/photos")
+    public ResponseEntity<?> uploadBandPhoto(@RequestPart("file") MultipartFile file, @PathVariable Integer id) throws IOException, InterruptedException {
+        bandService.uploadBandPhoto(file, id);
+        return ResponseEntity.ok().build();
     }
 
 }

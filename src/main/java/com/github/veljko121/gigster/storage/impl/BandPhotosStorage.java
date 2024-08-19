@@ -3,11 +3,13 @@ package com.github.veljko121.gigster.storage.impl;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.veljko121.gigster.core.storage.impl.ImageStorage;
 import com.github.veljko121.gigster.storage.IBandPhotosStorage;
 
+@Service
 public class BandPhotosStorage extends ImageStorage implements IBandPhotosStorage {
     
     @Value("${simple-object-storage.images-directory.band-pictures}")
