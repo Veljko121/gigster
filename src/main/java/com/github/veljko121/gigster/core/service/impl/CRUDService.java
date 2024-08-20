@@ -58,7 +58,7 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDT
     }
 
     public T updateDomain(ID id, TUpdateRequestDTO updatedEntityRequestDTO) {
-        return mapUpdatedFieldsToDomain(findByIdDomain(id), updatedEntityRequestDTO);
+        return repository.save(mapUpdatedFieldsToDomain(findByIdDomain(id), updatedEntityRequestDTO));
     }
 
     protected abstract TResponseDTO mapToResponseDTO(T entity);
