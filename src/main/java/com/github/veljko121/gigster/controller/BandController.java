@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+
 @RestController
 @RequestMapping("/api/bands")
 @RequiredArgsConstructor
@@ -73,10 +74,16 @@ public class BandController {
         return ResponseEntity.ok().body(BandType.values());        
     }
 
-    @PatchMapping("/{id}/photos")
+    @PatchMapping("/{id}/photo")
     public ResponseEntity<?> uploadBandPhoto(@RequestPart("file") MultipartFile file, @PathVariable Integer id) throws IOException, InterruptedException {
-        bandService.uploadBandPhoto(file, id);
+        bandService.updateBandPhoto(file, id);
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{id}/photo")
+    public ResponseEntity<byte[]> getBandPhoto(@PathVariable Integer id) throws IOException, InterruptedException {
+        var bandPhoto = bandService.getBandPhoto(id);
+        return ResponseEntity.ok(bandPhoto);
+    }
+    
 }

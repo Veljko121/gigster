@@ -14,6 +14,8 @@ public interface IBandService extends ICRUDService<Band, BandRequestDTO, BandRes
 
     Collection<BandResponseDTO> findByLoggedInUser();
 
-    void uploadBandPhoto(MultipartFile file, Integer bandId) throws IOException, InterruptedException;
+    String updateBandPhoto(MultipartFile file, Integer bandId) throws IOException, InterruptedException;
+
+    byte[] getBandPhoto(Integer bandId) throws IOException, InterruptedException;
     
 }

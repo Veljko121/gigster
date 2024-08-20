@@ -13,14 +13,13 @@ import com.github.veljko121.gigster.core.service.impl.CRUDService;
 import com.github.veljko121.gigster.dto.BandRequestDTO;
 import com.github.veljko121.gigster.dto.BandResponseDTO;
 import com.github.veljko121.gigster.model.Band;
-import com.github.veljko121.gigster.model.BandPhoto;
 import com.github.veljko121.gigster.model.RegisteredUser;
-import com.github.veljko121.gigster.repository.BandPhotoRepository;
 import com.github.veljko121.gigster.repository.BandRepository;
 import com.github.veljko121.gigster.repository.GenreRepository;
 import com.github.veljko121.gigster.repository.RegisteredUserRepository;
 import com.github.veljko121.gigster.service.IBandService;
 import com.github.veljko121.gigster.storage.IBandPhotosStorage;
+
 
 @Service
 public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseDTO, BandRequestDTO, Integer> implements IBandService {
@@ -33,18 +32,15 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
 
     private final RegisteredUserRepository registeredUserRepository;
 
-    private final BandPhotoRepository bandPhotoRepository;
-
     private final IBandPhotosStorage bandPhotosStorage;
 
     private final IJwtService jwtService;
 
-    public BandService(BandRepository bandRepository, GenreRepository genreRepository, RegisteredUserRepository registeredUserRepository, BandPhotoRepository bandPhotoRepository, IBandPhotosStorage bandPhotosStorage, IJwtService jwtService, ModelMapper modelMapper) {
+    public BandService(BandRepository bandRepository, GenreRepository genreRepository, RegisteredUserRepository registeredUserRepository, IBandPhotosStorage bandPhotosStorage, IJwtService jwtService, ModelMapper modelMapper) {
         super(bandRepository);
         this.bandRepository = bandRepository;
         this.genreRepository = genreRepository;
         this.registeredUserRepository = registeredUserRepository;
-        this.bandPhotoRepository = bandPhotoRepository;
         this.bandPhotosStorage = bandPhotosStorage;
         this.jwtService = jwtService;
         this.modelMapper = modelMapper;
@@ -102,15 +98,19 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
     }
 
     @Override
-    public void uploadBandPhoto(MultipartFile file, Integer bandId) throws IOException, InterruptedException {
+    public String updateBandPhoto(MultipartFile file, Integer bandId) throws IOException, InterruptedException {
         var band = findByIdDomain(bandId);
-        checkOwner(bandId);
-        var bandPhoto = new BandPhoto();
-        bandPhoto.setBand(band);
-        var savedBandPhoto = bandPhotoRepository.save(bandPhoto);
-        var path = bandPhotosStorage.upload(file, savedBandPhoto.getId().toString());
-        savedBandPhoto.setPath(path);
-        bandPhotoRepository.save(savedBandPhoto);
+        var bandPhotoName = band.getId().toString();
+        var bandPhotoPath = bandPhotosStorage.upload(file, bandPhotoName);
+        band.setPhotoPath(bandPhotoPath);
+        bandRepository.save(band);
+        return bandPhotoPath;
+    }
+
+    @Override
+    public byte[] getBandPhoto(Integer bandId) throws IOException, InterruptedException {
+        var band = findByIdDomain(bandId);
+        return bandPhotosStorage.getByFilename(band.getPhotoPath());
     }
     
 }

@@ -11,7 +11,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -39,7 +38,6 @@ public class Band extends GenericEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Genre> genres;
 
-    @OneToMany(mappedBy = "band", fetch = FetchType.EAGER)
-    private Collection<BandPhoto> photos;
+    private String photoPath;
     
 }

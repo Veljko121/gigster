@@ -5,7 +5,7 @@ VALUES
 
 INSERT INTO registered_user(id, first_name, last_name, profile_picture_path)
 VALUES
-    (1, 'Veljko', 'Nikolić', '1.png'),
+    (1, 'Veljko', 'Nikolić', '1.jpg'),
     (2, 'Marko', 'Nikolić', '2.png');
 
 INSERT INTO genre(name)
@@ -17,11 +17,11 @@ VALUES
     ('Blues'),
     ('Country');
 
-INSERT INTO band(owner_id, name, type, description)
+INSERT INTO band(owner_id, name, type, description, photo_path)
 VALUES
-    (1, 'Duo Perfetto', 0, 'Osnovan 2021. godine jedan je od najpoznatijih akustičnih dvojaca u Novom Sadu i okolini. Mladi, entuzijastični muzičari koji vole dobru atmosferu.'),
-    (1, 'Ritmico Acoustic', 0, 'Novi bend u Novom Sadu, već dobro poznat ljubiteljima akustične muzike.'),
-    (2, 'Melodico Band', 1, 'Kako samo ime kaže, ako ste željni dobre melodije, našli ste pravi bend.');
+    (1, 'Duo Perfetto', 0, 'Osnovan 2021. godine jedan je od najpoznatijih akustičnih dvojaca u Novom Sadu i okolini. Mladi, entuzijastični muzičari koji vole dobru atmosferu.', '1.png'),
+    (1, 'Ritmico Acoustic', 0, 'Novi bend u Novom Sadu, već dobro poznat ljubiteljima akustične muzike.', '2.png'),
+    (2, 'Melodico Band', 1, 'Kako samo ime kaže, ako ste željni dobre melodije, našli ste pravi bend.', '3.png');
 
 INSERT INTO band_genres(band_id, genres_id)
 VALUES

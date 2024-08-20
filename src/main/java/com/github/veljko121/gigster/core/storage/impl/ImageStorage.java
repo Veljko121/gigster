@@ -15,7 +15,7 @@ public abstract class ImageStorage extends SimpleObjectStorage implements IImage
 
     @Override
     public byte[] getByFilename(String imageName) throws IOException, InterruptedException {
-        return super.getByFilename(getImagesSubdirectory() + '/' + imageName);
+        return super.getByFilename(getImagePath(imageName));
     }
 
     @Override
@@ -39,7 +39,7 @@ public abstract class ImageStorage extends SimpleObjectStorage implements IImage
         
         if (!contentType.contains("image")) throw new IllegalArgumentException("Attached file is not an image.");
 
-        var fullImagePath = super.upload(fileBytes, contentType, originalFilename, newFilename);
+        var fullImagePath = super.upload(fileBytes, contentType, originalFilename, getImagePath(newFilename));
         var imagePath = fullImagePath.replace(getImagesSubdirectory() + '/', "");
         
         return imagePath;
@@ -50,6 +50,10 @@ public abstract class ImageStorage extends SimpleObjectStorage implements IImage
     @Override
     protected String getFilesSubdirectory() {
         return imagesDirectory;
+    }
+
+    private String getImagePath(String imageName) {
+        return getImagesSubdirectory() + '/' + imageName;
     }
 
 }
