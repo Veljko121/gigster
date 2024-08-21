@@ -11,5 +11,7 @@ import com.github.veljko121.gigster.model.GigListing;
 public interface IGigListingService extends ICRUDService<GigListing, GigListingRequestDTO, GigListingResponseDTO, GigListingUpdateRequestDTO, Integer> {
 
     Collection<GigListingResponseDTO> findByBandId(Integer bandId);
+
+    Collection<GigListingResponseDTO> findByLoggedInRegisteredUser();
     
 }

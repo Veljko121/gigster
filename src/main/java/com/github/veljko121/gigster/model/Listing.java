@@ -21,11 +21,11 @@ public abstract class Listing extends GenericEntity {
     @Enumerated
     @Column(insertable = false, columnDefinition = "smallint NOT NULL DEFAULT 0")
     @NotNull
-    private ListingType type;
+    private ListingType type = ListingType.GIG;
     
     @Enumerated
     @NotNull
     @Column(insertable = false, columnDefinition = "smallint NOT NULL DEFAULT 0")
-    private ListingStatus status;
+    private ListingStatus status = ListingStatus.DRAFT;
     
 }

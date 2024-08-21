@@ -90,5 +90,11 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
         var entities = gigListingRepository.findByBand(band);
         return mapToResponseDTOs(entities);
     }
+
+    @Override
+    public Collection<GigListingResponseDTO> findByLoggedInRegisteredUser() {
+        var bands = gigListingRepository.findByBandOwner(getLoggedInRegisteredUser());
+        return mapToResponseDTOs(bands);
+    }
    
 }

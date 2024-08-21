@@ -32,4 +32,8 @@ public class GigListing extends Listing {
     @PositiveOrZero @NotNull
     private Double maximumAdditionalHours;
 
+    public Double getMaximumDurationHours() {
+        return minimumDurationHours + maximumAdditionalHours;
+    }
+
 }

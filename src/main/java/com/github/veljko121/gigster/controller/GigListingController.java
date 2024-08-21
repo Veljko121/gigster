@@ -63,4 +63,9 @@ public class GigListingController {
         return ResponseEntity.ok().body(gigListingService.findByBandId(id));
     }
     
+    @GetMapping("/my")
+    public ResponseEntity<Collection<GigListingResponseDTO>> getByLoggedInRegisteredUser() {
+        return ResponseEntity.ok().body(gigListingService.findByLoggedInRegisteredUser());
+    }
+    
 }
