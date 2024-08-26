@@ -61,6 +61,7 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
     @Override
     protected GigListing mapToDomain(GigListingRequestDTO requestDTO) {
         var entity = modelMapper.map(requestDTO, GigListing.class);
+        entity.setId(null);
         return entity;
     }
 
