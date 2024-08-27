@@ -32,11 +32,11 @@ VALUES
     (3, 1),
     (3, 3);
 
-INSERT INTO listing(type, status)
+INSERT INTO listing(type, duration_days)
 VALUES
-    (DEFAULT, DEFAULT),
-    (DEFAULT, DEFAULT),
-    (DEFAULT, DEFAULT);
+    (DEFAULT, 7),
+    (DEFAULT, 30),
+    (DEFAULT, 5);
 
 INSERT INTO gig_listing(id, band_id, starting_price, price_per_additional_hour, minimum_duration_hours, maximum_additional_hours)
 VALUES

@@ -2,10 +2,11 @@ package com.github.veljko121.gigster.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class GigListingRequestDTO {
+@Getter @Setter
+public class GigListingRequestDTO extends ListingRequestDTO {
 
     @PositiveOrZero @NotNull
     private Integer bandId;
