@@ -12,12 +12,11 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
-                        name = "My name",
-                        email = "example@mail.com",
-                        url = "www.some-website.com"
+                        name = "Veljko Nikolić",
+                        email = "nikolicveljko01@gmail.com"
                 ),
-                title = "My Application",
-                description = "My Application API",
+                title = "Gigster",
+                description = "Gigster API",
                 version = "1.0"
         ),
         servers = {
