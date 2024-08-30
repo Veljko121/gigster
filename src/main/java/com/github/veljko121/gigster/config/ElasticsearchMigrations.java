@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import com.github.veljko121.gigster.repository.GigListingRepository;
+import com.github.veljko121.gigster.service.IGigsterSearchEngineService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,11 +17,19 @@ public class ElasticsearchMigrations implements ApplicationListener<ApplicationR
 
     private final Logger logger;
     private final GigListingRepository gigListingRepository;
+    private final IGigsterSearchEngineService gigsterSearchEngineService;
 
     @Override
     public void onApplicationEvent(@NonNull ApplicationReadyEvent event) {
-        logger.info("Script can be executed.");
+        logger.info("Starting migrations to Elasticsearch.");
+        gigsterSearchEngineService.deleteAllGigListings();
+        logger.info("Deleted all gig-listings from Elasticsearch.");
         var gigListings = gigListingRepository.findAll();
+        for (var gigListing : gigListings) {
+            gigsterSearchEngineService.createGigListing(gigListing);
+        }
+        logger.info("Migrated all gig-listings to Elasticsearch.");
+        logger.info("Migrations to Elasticsearch successful.");
     }
-    
+
 }

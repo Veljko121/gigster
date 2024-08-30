@@ -33,5 +33,15 @@
     "name": "simple-object-storage.images-directory",
     "type": "java.lang.String",
     "description": "Directory for storing images in Simple Object Storage."
+  },
+  {
+    "name": "gigster-search-engine.port",
+    "type": "java.lang.String",
+    "description": "Gigster Search Engine port."
+  },
+  {
+    "name": "gigster-search-engine.host",
+    "type": "java.lang.String",
+    "description": "Gigster Search Engine host."
   }
 ]}
