@@ -21,15 +21,19 @@ public class ElasticsearchMigrations implements ApplicationListener<ApplicationR
 
     @Override
     public void onApplicationEvent(@NonNull ApplicationReadyEvent event) {
-        logger.info("Starting migrations to Elasticsearch.");
-        gigsterSearchEngineService.deleteAllGigListings();
-        logger.info("Deleted all gig-listings from Elasticsearch.");
-        var gigListings = gigListingRepository.findAll();
-        for (var gigListing : gigListings) {
-            gigsterSearchEngineService.createGigListing(gigListing);
+        logger.info("Starting Elasticsearch migrations.");
+        try {
+            gigsterSearchEngineService.deleteAllGigListings();
+            logger.info("Deleted all gig-listings from Elasticsearch.");
+            var gigListings = gigListingRepository.findAll();
+            for (var gigListing : gigListings) {
+                gigsterSearchEngineService.createGigListing(gigListing);
+            }
+            logger.info("Migrated all gig-listings to Elasticsearch.");
+            logger.info("Elasticsearch migrations successful.");
+        } catch (Exception e) {
+            logger.error("Error when migrating data to Elasticsearch.");
         }
-        logger.info("Migrated all gig-listings to Elasticsearch.");
-        logger.info("Migrations to Elasticsearch successful.");
     }
 
 }
