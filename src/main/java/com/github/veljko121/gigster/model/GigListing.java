@@ -3,6 +3,7 @@ package com.github.veljko121.gigster.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
@@ -15,6 +16,9 @@ public class GigListing extends Listing {
     @ManyToOne
     @NotNull
     private Band band;
+
+    @NotBlank
+    private String title;
 
     @Column(nullable = false)
     @PositiveOrZero @NotNull

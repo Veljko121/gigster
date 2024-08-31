@@ -24,7 +24,7 @@ public class Band extends GenericEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(length = 500)
+    @Column(length = 1000)
     private String description;
 
     @NotNull
