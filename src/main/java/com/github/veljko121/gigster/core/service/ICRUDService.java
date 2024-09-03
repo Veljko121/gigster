@@ -9,7 +9,7 @@ public interface ICRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDTO, I
 
     Collection<TResponseDTO> findAll();
 
-    Collection<TResponseDTO> findAllByIds(Iterable<ID> ids);
+    Collection<TResponseDTO> findAllByIds(Collection<ID> ids);
 
     TResponseDTO save(TRequestDTO reqeustDTO);
 

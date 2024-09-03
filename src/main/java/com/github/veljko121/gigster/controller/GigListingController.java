@@ -1,10 +1,12 @@
 package com.github.veljko121.gigster.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.veljko121.gigster.dto.GigListingRequestDTO;
 import com.github.veljko121.gigster.dto.GigListingResponseDTO;
+import com.github.veljko121.gigster.dto.GigListingSearchRequestDTO;
 import com.github.veljko121.gigster.dto.GigListingUpdateRequestDTO;
 import com.github.veljko121.gigster.service.IGigListingService;
 
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;
 
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -66,6 +69,20 @@ public class GigListingController {
     @GetMapping("/my")
     public ResponseEntity<Collection<GigListingResponseDTO>> getByLoggedInRegisteredUser() {
         return ResponseEntity.ok().body(gigListingService.findByLoggedInRegisteredUser());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<PagedModel<GigListingResponseDTO>> search(
+            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "20") Integer pageSize,
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String bandType,
+            @RequestParam(required = false) Collection<Integer> genreIds,
+            @RequestParam(required = false) Double maximumPrice,
+            @RequestParam(required = false) Double durationHours
+    ) {
+        var requestDTO = new GigListingSearchRequestDTO(page, pageSize, query, bandType, genreIds, maximumPrice, durationHours);
+        return ResponseEntity.ok(gigListingService.searchGigListings(requestDTO));
     }
     
 }

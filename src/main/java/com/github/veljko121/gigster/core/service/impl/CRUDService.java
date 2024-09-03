@@ -33,7 +33,7 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDT
         return repository.findAll();
     } 
 
-    public Collection<TResponseDTO> findAllByIds(Iterable<ID> ids) {
+    public Collection<TResponseDTO> findAllByIds(Collection<ID> ids) {
         return mapToResponseDTOs(findAllByIdsDomain(ids));
     }
 

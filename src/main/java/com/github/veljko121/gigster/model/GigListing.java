@@ -40,4 +40,8 @@ public class GigListing extends Listing {
         return minimumDurationHours + maximumAdditionalHours;
     }
 
+    public String getFullTitle() {
+        return band.getName() + ": " + title;
+    }
+
 }

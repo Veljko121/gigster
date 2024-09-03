@@ -1,8 +1,13 @@
 package com.github.veljko121.gigster.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 
 import com.github.veljko121.gigster.core.exception.UnauthorizedOperationException;
@@ -10,13 +15,17 @@ import com.github.veljko121.gigster.core.service.IJwtService;
 import com.github.veljko121.gigster.core.service.impl.CRUDService;
 import com.github.veljko121.gigster.dto.GigListingRequestDTO;
 import com.github.veljko121.gigster.dto.GigListingResponseDTO;
+import com.github.veljko121.gigster.dto.GigListingSearchRequestDTO;
 import com.github.veljko121.gigster.dto.GigListingUpdateRequestDTO;
+import com.github.veljko121.gigster.dto.gigster_search_engine.GSEGigListingSearchRequestDTO;
 import com.github.veljko121.gigster.model.GigListing;
 import com.github.veljko121.gigster.model.RegisteredUser;
 import com.github.veljko121.gigster.repository.BandRepository;
+import com.github.veljko121.gigster.repository.GenreRepository;
 import com.github.veljko121.gigster.repository.GigListingRepository;
 import com.github.veljko121.gigster.repository.RegisteredUserRepository;
 import com.github.veljko121.gigster.service.IGigListingService;
+import com.github.veljko121.gigster.service.IGigsterSearchEngineService;
 
 @Service
 public class GigListingService extends CRUDService<GigListing, GigListingRequestDTO, GigListingResponseDTO, GigListingUpdateRequestDTO, Integer> implements IGigListingService {
@@ -28,16 +37,22 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
     private final RegisteredUserRepository registeredUserRepository;
 
     private final BandRepository bandRepository;
+
+    private final GenreRepository genreRepository;
+
+    private final IGigsterSearchEngineService gigsterSearchEngineService;
     
     private final IJwtService jwtService;
     
-    public GigListingService(GigListingRepository gigListingRepository, RegisteredUserRepository registeredUserRepository, IJwtService jwtService, BandRepository bandRepository, ModelMapper modelMapper) {
+    public GigListingService(GigListingRepository gigListingRepository, RegisteredUserRepository registeredUserRepository, GenreRepository genreRepository, IGigsterSearchEngineService gigsterSearchEngineService, IJwtService jwtService, BandRepository bandRepository, ModelMapper modelMapper) {
         super(gigListingRepository);
         this.gigListingRepository = gigListingRepository;
         this.modelMapper = modelMapper;
         this.jwtService = jwtService;
         this.registeredUserRepository = registeredUserRepository;
         this.bandRepository = bandRepository;
+        this.genreRepository = genreRepository;
+        this.gigsterSearchEngineService = gigsterSearchEngineService;
     }
 
     @Override
@@ -96,6 +111,22 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
     public Collection<GigListingResponseDTO> findByLoggedInRegisteredUser() {
         var bands = gigListingRepository.findByBandOwner(getLoggedInRegisteredUser());
         return mapToResponseDTOs(bands);
+    }
+
+    @Override
+    public PagedModel<GigListingResponseDTO> searchGigListings(GigListingSearchRequestDTO requestDTO) {
+        var genres = genreRepository.findAllById(requestDTO.getGenreIds());
+        var genreNames = genres.stream().map(genre -> genre.getName()).collect(Collectors.toList());
+        var gseSearchRequestDTO = modelMapper.map(requestDTO, GSEGigListingSearchRequestDTO.class);
+        gseSearchRequestDTO.setGenres(genreNames);
+        var result = gigsterSearchEngineService.searchGigListingIdsPaged(gseSearchRequestDTO);
+        Collection<Integer> ids = result.getContent();
+        var pageMetadata = result.getPage();
+        var pageable = PageRequest.of(pageMetadata.getNumber(), pageMetadata.getSize());
+        var gigListings = new ArrayList<>(findAllByIds(ids));
+        var page = new PageImpl<>(gigListings, pageable, pageMetadata.getTotalElements());
+        var response = new PagedModel<>(page);
+        return response;
     }
    
 }

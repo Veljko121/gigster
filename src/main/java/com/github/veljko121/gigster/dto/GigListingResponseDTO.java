@@ -14,6 +14,9 @@ public class GigListingResponseDTO extends ListingResponseDTO {
     
     @NotBlank
     private String title;
+    
+    @NotBlank
+    private String fullTitle;
 
     @PositiveOrZero @NotNull
     private Double startingPrice;

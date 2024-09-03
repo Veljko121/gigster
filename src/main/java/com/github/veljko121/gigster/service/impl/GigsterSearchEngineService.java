@@ -2,11 +2,16 @@ package com.github.veljko121.gigster.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.github.veljko121.gigster.core.util.PagedResponse;
 import com.github.veljko121.gigster.dto.gigster_search_engine.GSEGigListingRequestDTO;
 import com.github.veljko121.gigster.dto.gigster_search_engine.GSEGigListingResponseDTO;
+import com.github.veljko121.gigster.dto.gigster_search_engine.GSEGigListingSearchRequestDTO;
 import com.github.veljko121.gigster.model.GigListing;
 import com.github.veljko121.gigster.service.IGigsterSearchEngineService;
 
@@ -64,6 +69,28 @@ public class GigsterSearchEngineService implements IGigsterSearchEngineService {
     @Override
     public void deleteAllGigListings() {
         restTemplate.delete(gigListingsUrl());
+    }
+
+    @Override
+    public PagedResponse<Integer> searchGigListingIdsPaged(GSEGigListingSearchRequestDTO requestDTO) {
+        var url = UriComponentsBuilder.fromHttpUrl(gigListingsUrl()).path("/search/ids")
+            .queryParam("page", requestDTO.getPage())
+            .queryParam("pageSize", requestDTO.getPageSize())
+            .queryParam("query", requestDTO.getQuery())
+            .queryParam("bandType", requestDTO.getBandType())
+            .queryParam("genres", requestDTO.getGenres())
+            .queryParam("maximumPrice", requestDTO.getMaximumPrice())
+            .queryParam("durationHours", requestDTO.getDurationHours()).build().toString();
+            // .toUriString();
+
+        var response = restTemplate.exchange(
+            url,
+            HttpMethod.GET,
+            null,
+            new ParameterizedTypeReference<PagedResponse<Integer>>() {}
+        );
+
+        return response.getBody();
     }
     
 }
