@@ -18,5 +18,9 @@ public interface IGigListingService extends ICRUDService<GigListing, GigListingR
     Collection<GigListingResponseDTO> findByLoggedInRegisteredUser();
 
     PagedModel<GigListingResponseDTO> searchGigListings(GigListingSearchRequestDTO requestDTO);
+
+    Double findMaximumPrice();
+
+    Double findMinimumDurationHours();
     
 }

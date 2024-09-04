@@ -84,5 +84,15 @@ public class GigListingController {
         var requestDTO = new GigListingSearchRequestDTO(page, pageSize, query, bandTypes, genreIds, maximumPrice, durationHours);
         return ResponseEntity.ok(gigListingService.searchGigListings(requestDTO));
     }
+
+    @GetMapping("/maximum-price")
+    public ResponseEntity<Double> getMaximumPrice() {
+        return ResponseEntity.ok(gigListingService.findMaximumPrice());
+    }
+
+    @GetMapping("/minimum-hours")
+    public ResponseEntity<Double> getMinimumHours() {
+        return ResponseEntity.ok(gigListingService.findMinimumDurationHours());
+    }
     
 }

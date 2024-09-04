@@ -136,5 +136,15 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
         var response = new PagedModel<>(page);
         return response;
     }
+
+    @Override
+    public Double findMaximumPrice() {
+        return gigListingRepository.findMaxMaximumPrice();
+    }
+
+    @Override
+    public Double findMinimumDurationHours() {
+        return gigListingRepository.findMinimumDurationHours();
+    }
    
 }
