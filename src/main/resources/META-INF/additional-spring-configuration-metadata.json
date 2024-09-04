@@ -43,5 +43,10 @@
     "name": "gigster-search-engine.host",
     "type": "java.lang.String",
     "description": "Gigster Search Engine host."
+  },
+  {
+    "name": "gigster-search-engine.init.mode",
+    "type": "java.lang.String",
+    "description": "Gigster Search Engine init mode (for migrations)."
   }
 ]}
