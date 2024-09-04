@@ -76,12 +76,12 @@ public class GigListingController {
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
             @RequestParam(required = false) String query,
-            @RequestParam(required = false) String bandType,
+            @RequestParam(required = false) Collection<String> bandTypes,
             @RequestParam(required = false) Collection<Integer> genreIds,
             @RequestParam(required = false) Double maximumPrice,
             @RequestParam(required = false) Double durationHours
     ) {
-        var requestDTO = new GigListingSearchRequestDTO(page, pageSize, query, bandType, genreIds, maximumPrice, durationHours);
+        var requestDTO = new GigListingSearchRequestDTO(page, pageSize, query, bandTypes, genreIds, maximumPrice, durationHours);
         return ResponseEntity.ok(gigListingService.searchGigListings(requestDTO));
     }
     

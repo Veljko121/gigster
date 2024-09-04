@@ -2,6 +2,7 @@ package com.github.veljko121.gigster.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,7 @@ import com.github.veljko121.gigster.dto.GigListingResponseDTO;
 import com.github.veljko121.gigster.dto.GigListingSearchRequestDTO;
 import com.github.veljko121.gigster.dto.GigListingUpdateRequestDTO;
 import com.github.veljko121.gigster.dto.gigster_search_engine.GSEGigListingSearchRequestDTO;
+import com.github.veljko121.gigster.model.Genre;
 import com.github.veljko121.gigster.model.GigListing;
 import com.github.veljko121.gigster.model.RegisteredUser;
 import com.github.veljko121.gigster.repository.BandRepository;
@@ -26,6 +28,8 @@ import com.github.veljko121.gigster.repository.GigListingRepository;
 import com.github.veljko121.gigster.repository.RegisteredUserRepository;
 import com.github.veljko121.gigster.service.IGigListingService;
 import com.github.veljko121.gigster.service.IGigsterSearchEngineService;
+
+import io.jsonwebtoken.lang.Collections;
 
 @Service
 public class GigListingService extends CRUDService<GigListing, GigListingRequestDTO, GigListingResponseDTO, GigListingUpdateRequestDTO, Integer> implements IGigListingService {
@@ -113,14 +117,18 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
         return mapToResponseDTOs(bands);
     }
 
+    // TODO: Clean-up
     @Override
     public PagedModel<GigListingResponseDTO> searchGigListings(GigListingSearchRequestDTO requestDTO) {
-        var genres = genreRepository.findAllById(requestDTO.getGenreIds());
+        List<Genre> genres = Collections.emptyList();
+        if (requestDTO.getGenreIds() != null) {
+            genres = genreRepository.findAllById(requestDTO.getGenreIds());
+        }
         var genreNames = genres.stream().map(genre -> genre.getName()).collect(Collectors.toList());
         var gseSearchRequestDTO = modelMapper.map(requestDTO, GSEGigListingSearchRequestDTO.class);
         gseSearchRequestDTO.setGenres(genreNames);
         var result = gigsterSearchEngineService.searchGigListingIdsPaged(gseSearchRequestDTO);
-        Collection<Integer> ids = result.getContent();
+        var ids = result.getContent();
         var pageMetadata = result.getPage();
         var pageable = PageRequest.of(pageMetadata.getNumber(), pageMetadata.getSize());
         var gigListings = new ArrayList<>(findAllByIds(ids));

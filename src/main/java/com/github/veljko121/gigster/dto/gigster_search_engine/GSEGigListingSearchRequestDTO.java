@@ -17,7 +17,7 @@ public class GSEGigListingSearchRequestDTO {
 
     private String query;
 
-    private String bandType;
+    private Collection<String> bandTypes;
 
     private Collection<String> genres;
     

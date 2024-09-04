@@ -77,7 +77,7 @@ public class GigsterSearchEngineService implements IGigsterSearchEngineService {
             .queryParam("page", requestDTO.getPage())
             .queryParam("pageSize", requestDTO.getPageSize())
             .queryParam("query", requestDTO.getQuery())
-            .queryParam("bandType", requestDTO.getBandType())
+            .queryParam("bandTypes", requestDTO.getBandTypes())
             .queryParam("genres", requestDTO.getGenres())
             .queryParam("maximumPrice", requestDTO.getMaximumPrice())
             .queryParam("durationHours", requestDTO.getDurationHours()).build().toString();

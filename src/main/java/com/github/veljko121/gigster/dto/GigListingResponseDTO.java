@@ -33,4 +33,7 @@ public class GigListingResponseDTO extends ListingResponseDTO {
     @PositiveOrZero @NotNull
     private Double maximumDurationHours;
 
+    @PositiveOrZero @NotNull
+    private Double maximumPrice;
+
 }

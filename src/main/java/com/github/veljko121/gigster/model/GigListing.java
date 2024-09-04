@@ -44,4 +44,8 @@ public class GigListing extends Listing {
         return band.getName() + ": " + title;
     }
 
+    public Double getMaximumPrice() {
+        return startingPrice + pricePerAdditionalHour * maximumAdditionalHours;
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.github.veljko121.gigster.dto;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -19,7 +21,7 @@ public class GigListingSearchRequestDTO {
 
     private String query;
 
-    private String bandType;
+    private Collection<String> bandTypes;
 
     private Collection<Integer> genreIds;
     
@@ -28,4 +30,14 @@ public class GigListingSearchRequestDTO {
     
     @PositiveOrZero
     private Double durationHours;
+
+    public Collection<String> getBandTypes() {
+        if (bandTypes != null) {
+            bandTypes = bandTypes.stream().map(bandType -> bandType.toUpperCase()).toList();
+            return bandTypes;
+        }
+        List<String> emptyList = Collections.emptyList();
+        return emptyList;
+    }
+
 }
