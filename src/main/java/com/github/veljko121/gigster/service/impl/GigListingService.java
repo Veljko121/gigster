@@ -146,5 +146,10 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
     public Double findMinimumDurationHours() {
         return gigListingRepository.findMinimumDurationHours();
     }
+
+    @Override
+    public Double findMaximumDurationHours() {
+        return gigListingRepository.findMaximumDurationHours();
+    }
    
 }

@@ -21,5 +21,8 @@ public interface GigListingRepository extends JpaRepository<GigListing, Integer>
 
     @Query("SELECT MIN(gl.minimumDurationHours) FROM GigListing gl")
     Double findMinimumDurationHours();
+
+    @Query("SELECT MAX(gl.minimumDurationHours + gl.maximumAdditionalHours) FROM GigListing gl")
+    Double findMaximumDurationHours();
     
 }

@@ -79,9 +79,10 @@ public class GigListingController {
             @RequestParam(required = false) Collection<String> bandTypes,
             @RequestParam(required = false) Collection<Integer> genreIds,
             @RequestParam(required = false) Double maximumPrice,
-            @RequestParam(required = false) Double durationHours
+            @RequestParam(required = false) Double durationHours,
+            @RequestParam(required = false) String sortBy
     ) {
-        var requestDTO = new GigListingSearchRequestDTO(page, pageSize, query, bandTypes, genreIds, maximumPrice, durationHours);
+        var requestDTO = new GigListingSearchRequestDTO(page, pageSize, query, bandTypes, genreIds, maximumPrice, durationHours, sortBy);
         return ResponseEntity.ok(gigListingService.searchGigListings(requestDTO));
     }
 
@@ -93,6 +94,11 @@ public class GigListingController {
     @GetMapping("/minimum-hours")
     public ResponseEntity<Double> getMinimumHours() {
         return ResponseEntity.ok(gigListingService.findMinimumDurationHours());
+    }
+
+    @GetMapping("/maximum-hours")
+    public ResponseEntity<Double> getMaximumHours() {
+        return ResponseEntity.ok(gigListingService.findMaximumDurationHours());
     }
     
 }

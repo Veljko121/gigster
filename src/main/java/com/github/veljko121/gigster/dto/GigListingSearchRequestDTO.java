@@ -31,6 +31,8 @@ public class GigListingSearchRequestDTO {
     @PositiveOrZero
     private Double durationHours;
 
+    private String sortBy;
+
     public Collection<String> getBandTypes() {
         if (bandTypes != null) {
             bandTypes = bandTypes.stream().map(bandType -> bandType.toUpperCase()).toList();

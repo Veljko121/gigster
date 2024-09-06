@@ -27,4 +27,6 @@ public class GSEGigListingSearchRequestDTO {
     @PositiveOrZero
     private Double durationHours;
 
+    private String sortBy;
+
 }

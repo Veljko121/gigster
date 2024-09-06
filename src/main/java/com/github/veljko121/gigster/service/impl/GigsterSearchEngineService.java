@@ -80,7 +80,8 @@ public class GigsterSearchEngineService implements IGigsterSearchEngineService {
             .queryParam("bandTypes", requestDTO.getBandTypes())
             .queryParam("genres", requestDTO.getGenres())
             .queryParam("maximumPrice", requestDTO.getMaximumPrice())
-            .queryParam("durationHours", requestDTO.getDurationHours()).build().toString();
+            .queryParam("durationHours", requestDTO.getDurationHours())
+            .queryParam("sortBy", requestDTO.getSortBy()).build().toString();
             // .toUriString();
 
         var response = restTemplate.exchange(

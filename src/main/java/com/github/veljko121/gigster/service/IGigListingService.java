@@ -22,5 +22,7 @@ public interface IGigListingService extends ICRUDService<GigListing, GigListingR
     Double findMaximumPrice();
 
     Double findMinimumDurationHours();
+
+    Double findMaximumDurationHours();
     
 }
