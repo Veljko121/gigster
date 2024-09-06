@@ -131,8 +131,14 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
         var ids = result.getContent();
         var pageMetadata = result.getPage();
         var pageable = PageRequest.of(pageMetadata.getNumber(), pageMetadata.getSize());
-        var gigListings = new ArrayList<>(findAllByIds(ids));
-        var page = new PageImpl<>(gigListings, pageable, pageMetadata.getTotalElements());
+
+        List<GigListingResponseDTO> gigListings = new ArrayList<>();
+        for (var id : ids) {
+            var gigListing = findById(id);
+            gigListings.add(gigListing);
+        }
+
+        var page = new PageImpl<GigListingResponseDTO>(gigListings, pageable, pageMetadata.getTotalElements());
         var response = new PagedModel<>(page);
         return response;
     }
