@@ -38,8 +38,8 @@ VALUES
     (DEFAULT, 30),
     (DEFAULT, 5);
 
-INSERT INTO gig_listing(id, band_id, starting_price, price_per_additional_hour, minimum_duration_hours, maximum_additional_hours)
+INSERT INTO gig_listing(id, title, band_id, starting_price, price_per_additional_hour, minimum_duration_hours, maximum_additional_hours)
 VALUES
-    (1, 1, 12000, 3000, 3, 2),
-    (2, 2, 18000, 4000, 3, 3),
-    (3, 3, 24000, 6000, 3, 5);
+    (1, 'Unrivaled music experience', 1, 12000, 3000, 3, 2),
+    (2, 'Immersive and unforgettable', 2, 18000, 4000, 3, 3),
+    (3,'Perfect for your needs', 3, 24000, 6000, 3, 5);
