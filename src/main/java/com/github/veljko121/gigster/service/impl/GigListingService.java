@@ -63,12 +63,16 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
     public void deleteById(Integer id) {
         checkOwner(id);
         super.deleteById(id);
+        gigsterSearchEngineService.deleteGigListingById(id);
     }
 
     @Override
     public GigListingResponseDTO update(Integer id, GigListingUpdateRequestDTO updatedEntityRequestDTO) {
         checkOwner(id);
-        return super.update(id, updatedEntityRequestDTO);
+        var response = super.update(id, updatedEntityRequestDTO);
+        var entity = findByIdDomain(id);
+        gigsterSearchEngineService.updateGigListing(id, entity);
+        return response;
     }
 
     @Override
@@ -115,6 +119,14 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
     public Collection<GigListingResponseDTO> findByLoggedInRegisteredUser() {
         var bands = gigListingRepository.findByBandOwner(getLoggedInRegisteredUser());
         return mapToResponseDTOs(bands);
+    }
+
+    @Override
+    public GigListingResponseDTO save(GigListingRequestDTO requestDTO) {
+        var response = super.save(requestDTO);
+        var entity = findByIdDomain(response.getId());
+        gigsterSearchEngineService.createGigListing(entity);
+        return response;
     }
 
     // TODO: Clean-up

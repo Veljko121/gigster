@@ -12,6 +12,10 @@ public interface IGigsterSearchEngineService {
 
     GSEGigListingResponseDTO createGigListing(GigListing gigListing);
 
+    void updateGigListing(Integer id, GigListing gigListing);
+
+    void deleteGigListingById(Integer id);
+
     void deleteAllGigListings();
 
     PagedResponse<Integer> searchGigListingIdsPaged(GSEGigListingSearchRequestDTO requestDTO);

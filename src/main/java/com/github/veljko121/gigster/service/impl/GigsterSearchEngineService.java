@@ -66,6 +66,20 @@ public class GigsterSearchEngineService implements IGigsterSearchEngineService {
         return requestDTO;
     }
 
+    private GSEGigListingRequestDTO mapToUpdateRequestDTO(GigListing gigListing) {
+        return mapToRequestDTO(gigListing);
+    }
+
+    @Override
+    public void updateGigListing(Integer id, GigListing gigListing) {
+        restTemplate.put(gigListingsUrl() + "/" + id, mapToUpdateRequestDTO(gigListing), GSEGigListingResponseDTO.class);
+    }
+
+    @Override
+    public void deleteGigListingById(Integer id) {
+        restTemplate.delete(gigListingsUrl() + "/" + id);
+    }
+
     @Override
     public void deleteAllGigListings() {
         restTemplate.delete(gigListingsUrl());
