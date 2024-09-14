@@ -84,7 +84,7 @@ public class BandService extends CRUDService<Band, BandRequestDTO, BandResponseD
     private void checkOwner(Integer id) {
         var band = findByIdDomain(id);
         var registeredUser = getLoggedInRegisteredUser();
-        if (band.getOwner().getId() != registeredUser.getId()) throw new UnauthorizedOperationException();
+        if (!band.getOwner().getId().equals(registeredUser.getId())) throw new UnauthorizedOperationException();
     }
 
     private RegisteredUser getLoggedInRegisteredUser() {

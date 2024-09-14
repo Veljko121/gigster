@@ -96,7 +96,6 @@ public class GigsterSearchEngineService implements IGigsterSearchEngineService {
             .queryParam("maximumPrice", requestDTO.getMaximumPrice())
             .queryParam("durationHours", requestDTO.getDurationHours())
             .queryParam("sortBy", requestDTO.getSortBy()).build().toString();
-            // .toUriString();
 
         var response = restTemplate.exchange(
             url,
