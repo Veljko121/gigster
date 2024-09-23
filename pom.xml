@@ -15,15 +15,15 @@
 	<name>gigster</name>
 	<description>Project for reserving gigs</description>
 	<properties>
-		<java.version>22</java.version>
+		<java.version>23</java.version>
 	</properties>
 	<dependencies>
 
+		<!-- Spring Actuator -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
 		
 		<!-- Spring DevTools -->
 		<dependency>
