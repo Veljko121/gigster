@@ -37,7 +37,7 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDT
         return mapToResponseDTOs(findAllByIdsDomain(ids));
     }
 
-    public Collection<T> findAllByIdsDomain(Iterable<ID> ids) {
+    protected Collection<T> findAllByIdsDomain(Iterable<ID> ids) {
         return repository.findAllById(ids);
     }
 
@@ -57,7 +57,7 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDT
         return mapToResponseDTO(updateDomain(id, updatedEntityRequestDTO));
     }
 
-    public T updateDomain(ID id, TUpdateRequestDTO updatedEntityRequestDTO) {
+    protected T updateDomain(ID id, TUpdateRequestDTO updatedEntityRequestDTO) {
         return repository.save(mapUpdatedFieldsToDomain(findByIdDomain(id), updatedEntityRequestDTO));
     }
 

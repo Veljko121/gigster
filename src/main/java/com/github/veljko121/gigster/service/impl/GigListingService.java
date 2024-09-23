@@ -90,10 +90,11 @@ public class GigListingService extends CRUDService<GigListing, GigListingRequest
 
     @Override
     protected GigListing mapUpdatedFieldsToDomain(GigListing entity, GigListingUpdateRequestDTO updatedEntityRequestDTO) {
-        entity.setMinimumDurationHours(updatedEntityRequestDTO.getMinimumDurationHours());
-        entity.setMaximumAdditionalHours(updatedEntityRequestDTO.getMaximumAdditionalHours());
+        entity.setTitle(updatedEntityRequestDTO.getTitle());
         entity.setStartingPrice(updatedEntityRequestDTO.getStartingPrice());
         entity.setPricePerAdditionalHour(updatedEntityRequestDTO.getPricePerAdditionalHour());
+        entity.setMinimumDurationHours(updatedEntityRequestDTO.getMinimumDurationHours());
+        entity.setMaximumAdditionalHours(updatedEntityRequestDTO.getMaximumAdditionalHours());
         return entity;
     }
 
