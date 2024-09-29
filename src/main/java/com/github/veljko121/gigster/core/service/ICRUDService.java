@@ -17,4 +17,8 @@ public interface ICRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDTO, I
     
     void deleteById(ID id);
 
+    void delete(T entity);
+
+    void deleteAll();
+
 }

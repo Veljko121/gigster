@@ -17,6 +17,7 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDT
         this.repository = repository;
     }
 
+    @Override
     public TResponseDTO findById(ID id) throws NoSuchElementException {
         return mapToResponseDTO(findByIdDomain(id));
     }
@@ -25,6 +26,7 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDT
         return repository.findById(id).orElseThrow();
     }
 
+    @Override
     public Collection<TResponseDTO> findAll() {
         return mapToResponseDTOs(findAllDomain());
     }
@@ -33,6 +35,7 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDT
         return repository.findAll();
     } 
 
+    @Override
     public Collection<TResponseDTO> findAllByIds(Collection<ID> ids) {
         return mapToResponseDTOs(findAllByIdsDomain(ids));
     }
@@ -41,6 +44,7 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDT
         return repository.findAllById(ids);
     }
 
+    @Override
     public TResponseDTO save(TRequestDTO requestDTO) {
         return mapToResponseDTO(saveDomain(requestDTO));
     }
@@ -49,29 +53,41 @@ public abstract class CRUDService<T, TRequestDTO, TResponseDTO, TUpdateRequestDT
         return repository.save(mapToDomain(requestDTO));
     }
 
+    @Override
     public void deleteById(ID id) {
         repository.deleteById(id);
     }
 
+    @Override
+    public void delete(T entity) {
+        repository.delete(entity);
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+    
+    @Override
     public TResponseDTO update(ID id, TUpdateRequestDTO updatedEntityRequestDTO) {
         return mapToResponseDTO(updateDomain(id, updatedEntityRequestDTO));
     }
-
+    
     protected T updateDomain(ID id, TUpdateRequestDTO updatedEntityRequestDTO) {
         return repository.save(mapUpdatedFieldsToDomain(findByIdDomain(id), updatedEntityRequestDTO));
     }
-
+    
     protected abstract TResponseDTO mapToResponseDTO(T entity);
-
+    
     protected abstract T mapToDomain(TRequestDTO requestDTO);
-
+    
     protected abstract T mapUpdatedFieldsToDomain(T entity, TUpdateRequestDTO updatedEntityRequestDTO);
-
+    
     protected Collection<TResponseDTO> mapToResponseDTOs(Collection<T> entities) {
         var responseDTOs = entities.stream().map(entity -> mapToResponseDTO(entity)).collect(Collectors.toList());
         return responseDTOs;
     }
-
+    
     protected Collection<T> mapToDomains(Collection<TRequestDTO> requestDTOs) {
         var entities = requestDTOs.stream().map(requestDTO -> mapToDomain(requestDTO)).collect(Collectors.toList());
         return entities;
