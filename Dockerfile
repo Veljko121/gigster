@@ -8,7 +8,7 @@ RUN mvn dependency:resolve
 COPY . .
 RUN mvn package -DskipTests
 
-FROM openjdk:22-jdk-slim as final
+FROM openjdk:22-jdk-slim AS final
 
 WORKDIR /
 
